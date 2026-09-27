@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mealist.ai - Recipes Management</title>
+<!-- Tailwind CSS CDN with forms plugin -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts for Serif Headings and Clean Sans Body -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              forest: '#264e41',
+              dark: '#1e3d33',
+              accent: '#315e4f',
+              cream: '#f9f8f4',
+              sidebar: '#f2f0eb',
+              lightGray: '#ece9e2',
+              cardBg: '#ffffff',
+            },
+            status: {
+              publishedBg: '#e5eee7',
+              publishedText: '#326049',
+              reviewBg: '#faebd7',
+              reviewText: '#9a6125',
+              draftBg: '#ebeceb',
+              draftText: '#626767',
+            }
+          },
+          fontFamily: {
+            serif: ['"Instrument Serif"', 'Georgia', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+<!-- BEGIN: Custom Typography Styles -->
+<style data-purpose="typography">
+    .font-heading {
+      font-family: 'Instrument Serif', Georgia, serif;
+    }
+  </style>
+<!-- END: Custom Typography Styles -->
+</head>
+<body class="bg-[#f9f8f4] text-[#2c3330] font-sans antialiased min-h-screen flex">
+<!-- BEGIN: Sidebar -->
+<aside class="w-64 bg-[#f2f0eb] border-r border-[#e5e1d8] flex flex-col justify-between shrink-0 min-h-screen select-none">
+<div>
+<!-- Brand Logo / Identity -->
+<div class="px-7 pt-8 pb-10">
+<h1 class="text-3xl font-heading font-bold tracking-tight text-[#264e41]">Mealist.ai</h1>
+<p class="text-[13px] text-[#717b77] mt-1 font-medium tracking-wide">Premium Data Platform</p>
+</div>
+<!-- Navigation Links -->
+<nav class="space-y-1.5 px-3">
+<!-- Dashboard Item -->
+<a class="flex items-center gap-3.5 px-4 py-2.5 rounded-lg text-[14px] font-medium text-[#4d5753] hover:bg-[#eae6de] transition-colors" href="#">
+<svg class="w-5 h-5 text-[#54625d]" fill="currentColor" viewbox="0 0 24 24">
+<path d="M3 4a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm10 0a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1h-6a1 1 0 01-1-1V4zM3 14a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zm10 0a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1h-6a1 1 0 01-1-1v-6z"></path>
+</svg>
+          Dashboard
+        </a>
+<!-- Users Item -->
+<a class="flex items-center gap-3.5 px-4 py-2.5 rounded-lg text-[14px] font-medium text-[#4d5753] hover:bg-[#eae6de] transition-colors" href="#">
+<svg class="w-5 h-5 text-[#54625d]" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m9-5.13a4 4 0 11-8 0 4 4 0 018 0zm6 3a3 3 0 11-6 0 3 3 0 016 0zM7 11a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+          Users
+        </a>
+<!-- Recipes (Active) Item -->
+<a class="flex items-center justify-between px-4 py-2.5 rounded-md bg-[#e3ded4] text-[14px] font-semibold text-[#264e41] border-r-[3px] border-[#264e41]" href="#">
+<div class="flex items-center gap-3.5">
+<svg class="w-5 h-5 text-[#264e41]" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+            Recipes
+          </div>
+</a>
+<!-- Subscription Item -->
+<a class="flex items-center gap-3.5 px-4 py-2.5 rounded-lg text-[14px] font-medium text-[#4d5753] hover:bg-[#eae6de] transition-colors" href="#">
+<svg class="w-5 h-5 text-[#54625d]" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+          Subscription
+        </a>
+<!-- Settings Item -->
+<a class="flex items-center gap-3.5 px-4 py-2.5 rounded-lg text-[14px] font-medium text-[#4d5753] hover:bg-[#eae6de] transition-colors" href="#">
+<svg class="w-5 h-5 text-[#54625d]" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" stroke-linecap="round" stroke-linejoin="round"></path>
+<path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+          Settings
+        </a>
+</nav>
+</div>
+<!-- Bottom Logout -->
+<div class="px-5 py-6">
+<a class="flex items-center gap-3 px-3 py-2 text-[14px] font-medium text-[#4d5753] hover:text-[#1e3d33] transition-colors" href="#">
+<svg class="w-5 h-5 text-[#54625d]" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+        Logout
+      </a>
+</div>
+</aside>
+<!-- END: Sidebar -->
+<!-- BEGIN: MainContentWrapper -->
+<div class="flex-1 flex flex-col min-w-0">
+<!-- BEGIN: TopBar -->
+<header class="h-20 border-b border-[#e5e1d8] flex items-center justify-between px-10 bg-[#f9f8f4]">
+<!-- Page Breadcrumb/Section Title -->
+<div>
+<h2 class="text-2xl font-heading font-semibold text-[#264e41] leading-none">Dashboard</h2>
+<p class="text-xs text-[#78817e] mt-1.5 font-normal">Here's what needs your attention today.</p>
+</div>
+<!-- User Profile & Notifications -->
+<div class="flex items-center gap-5">
+<!-- Notification Bell Icon with Dot Indicator -->
+<button class="relative p-1 text-[#4d5753] hover:text-black focus:outline-none" type="button">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span class="absolute top-1 right-1 w-2 h-2 bg-[#b9382e] rounded-full ring-2 ring-[#f9f8f4]"></span>
+</button>
+<!-- User Profile Avatar -->
+<div class="flex items-center">
+<img alt="Profile Avatar" class="w-9 h-9 rounded-full object-cover border border-[#d6d0c2]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAL_Aw0JrwUcX-gMwXcGLK4FygcTJLlihJ361ddCEwwHZmMIUYpQAGnphvbIkIVtZyQK1yG04kpvdF_y_Mu4lp0lL4jZ32_jpMq1BhWV2UFJA3Cj3CeBjAU0JTk2_35yUxbLPIkxA3dly8sVG5t3wy0SwVJci38gDt9KLDnamLEzBy4aFibz9BcX6XkC0a4Kh9pg7pdY9qMYrDakJPDeDHTCj0NjvHUH0ju6v3Ke3FB3-yoFiCdgF7sKw"/>
+</div>
+</div>
+</header>
+<!-- END: TopBar -->
+<!-- BEGIN: MainContent -->
+<main class="flex-1 p-10 max-w-7xl w-full">
+<!-- Title & Primary Action Header -->
+<section class="flex items-center justify-between mb-8" data-purpose="section-header">
+<div>
+<h2 class="text-[34px] font-heading font-bold text-[#1f2924] leading-tight">Recipes</h2>
+<p class="text-[14px] text-[#69736f] mt-1">Manage the Mealist.ai recipe catalogue.</p>
+</div>
+<!-- Add Recipe Button -->
+<button class="inline-flex items-center gap-2 bg-[#315e4f] hover:bg-[#264e41] text-white text-[13px] font-medium px-4 py-2.5 rounded shadow-sm transition-colors" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24">
+<path d="M12 4v16m8-8H4" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+          Add Recipe
+        </button>
+</section>
+<!-- Filter and Search Container Card -->
+<section class="bg-white border border-[#e5e1d8] rounded-md p-4 mb-6 shadow-[0_1px_2px_rgba(0,0,0,0.03)]" data-purpose="filters">
+<div class="flex items-center gap-3">
+<!-- Search Input Field -->
+<div class="relative flex-1">
+<div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#8e9793]">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<input class="w-full pl-10 pr-4 py-2 bg-transparent text-[13px] text-[#2c3330] placeholder-[#8e9793] border border-[#ded9cd] rounded focus:outline-none focus:ring-1 focus:ring-[#315e4f] focus:border-[#315e4f]" placeholder="Search recipes or ingredients..." type="text"/>
+</div>
+<!-- Status Dropdown -->
+<div class="relative w-48">
+<select class="w-full appearance-none bg-transparent border border-[#ded9cd] rounded px-3 py-2 text-[13px] text-[#333d39] font-medium focus:outline-none focus:ring-1 focus:ring-[#315e4f] focus:border-[#315e4f] cursor-pointer pr-8">
+<option>Status: All</option>
+<option>Published</option>
+<option>Needs Review</option>
+<option>Draft</option>
+</select>
+<div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-[#75807c]">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+</div>
+<!-- Cuisine Dropdown -->
+<div class="relative w-56">
+<select class="w-full appearance-none bg-transparent border border-[#ded9cd] rounded px-3 py-2 text-[13px] text-[#333d39] font-medium focus:outline-none focus:ring-1 focus:ring-[#315e4f] focus:border-[#315e4f] cursor-pointer pr-8">
+<option>Cuisine: All Cuisines</option>
+<option>Mediterranean</option>
+<option>Japanese</option>
+<option>British</option>
+</select>
+<div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-[#75807c]">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+</div>
+</div>
+</section>
+<!-- BEGIN: Recipes Table -->
+<section class="bg-white border border-[#e5e1d8] rounded-md shadow-[0_1px_2px_rgba(0,0,0,0.03)] overflow-hidden" data-purpose="recipes-table">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-[#e8e4db] text-[11px] font-semibold tracking-wider text-[#697570] uppercase">
+<th class="py-3 px-6 font-semibold" scope="col">Recipe</th>
+<th class="py-3 px-6 font-semibold" scope="col">Cuisine</th>
+<th class="py-3 px-6 font-semibold" scope="col">Status</th>
+<th class="py-3 px-6 font-semibold" scope="col">Last Updated</th>
+<th class="py-3 px-6 font-semibold text-right" scope="col">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-[#ece8df] text-[13px]">
+<!-- Row 1: Mediterranean Quinoa Bowl -->
+<tr class="hover:bg-[#fbfaf8] transition-colors">
+<td class="py-4 px-6 flex items-center gap-4">
+<img alt="Mediterranean Quinoa Bowl" class="w-12 h-12 rounded object-cover border border-[#e5e1d8] shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAElu5_4AerbiZkcAX7-x2PoNQYW0GYVV2xRJIwKCxnIGlkyBH_DXMtZR4vy85rhUcfJcMECPWDKEzpJNC6pyJSt9gs6g4GjRmyPBbTBePTe2qU_TTqzr_jUjmnp8CvzYUtLSxaB3UtnRawIKUbexzBAI741DMZ9NfG6DgZ3AgmDnM1QiONbHqYSnGSipPU9dNssBPfXa-yItBtNRqaRrBfHoDCN7QccGY-QLg-mBxObpxg_MSo9rITgQ"/>
+<div>
+<h3 class="font-heading font-semibold text-[17px] text-[#1c2421] leading-snug">Mediterranean Quinoa Bowl</h3>
+<p class="text-[11px] font-medium text-[#7d8682] tracking-wide mt-0.5">ID: #REC-4829</p>
+</div>
+</td>
+<td class="py-4 px-6 text-[#353f3b] font-normal">Mediterranean</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-2.5 py-1 rounded text-[11px] font-semibold bg-[#e5eee7] text-[#326049]">
+                  Published
+                </span>
+</td>
+<td class="py-4 px-6 text-[#5b6460]">
+<span>Oct 24, 2023</span> <span class="text-[#8e9793]">by Sarah L.</span>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="px-3.5 py-1.5 border border-[#cfc9bc] rounded text-[12px] font-medium text-[#2d3632] hover:bg-[#f5f3ee] transition-colors" type="button">
+                  View
+                </button>
+</td>
+</tr>
+<!-- Row 2: Spicy Miso Ramen -->
+<tr class="hover:bg-[#fbfaf8] transition-colors">
+<td class="py-4 px-6 flex items-center gap-4">
+<img alt="Spicy Miso Ramen" class="w-12 h-12 rounded object-cover border border-[#e5e1d8] shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBaiNNXza2BHvHFL9ZxLLjV48nOy1URHFkZu3eqF7EEUdy47Ml-xygf_tsoWYhsUhKoqXcvum6ywolNDbTP5Vbwhi1dxUtEN-Ttk2bmNlE-02hKbcV1GzwPgTNYXuqhvmFpfKfvVzCVfyrB2DMCOIG0JIhkM6vtuIbeWNMskQmkUDnyKG9sPvJOu4aR2ScsNbtvv3OjLNReZNGA8OE6pq5c0v-AzIS0F_bFE26-Fwe3bqNxF3SBwSlBrQ"/>
+<div>
+<h3 class="font-heading font-semibold text-[17px] text-[#1c2421] leading-snug">Spicy Miso Ramen</h3>
+<p class="text-[11px] font-medium text-[#7d8682] tracking-wide mt-0.5">ID: #REC-4830</p>
+</div>
+</td>
+<td class="py-4 px-6 text-[#353f3b] font-normal">Japanese</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-2.5 py-1 rounded text-[11px] font-semibold bg-[#faebd7] text-[#9a6125]">
+                  Needs Review
+                </span>
+</td>
+<td class="py-4 px-6 text-[#5b6460]">
+<span>Oct 26, 2023</span> <span class="text-[#8e9793]">by Auto-Ingest</span>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="px-3.5 py-1.5 border border-[#cfc9bc] rounded text-[12px] font-medium text-[#2d3632] hover:bg-[#f5f3ee] transition-colors" type="button">
+                  View
+                </button>
+</td>
+</tr>
+<!-- Row 3: Classic Beef Wellington -->
+<tr class="hover:bg-[#fbfaf8] transition-colors">
+<td class="py-4 px-6 flex items-center gap-4">
+<!-- Fallback Image Icon Placeholder -->
+<div class="w-12 h-12 rounded bg-[#ebeae6] border border-[#dfdcd3] flex items-center justify-center shrink-0 text-[#9da5a1]">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24">
+<path d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<div>
+<h3 class="font-heading font-semibold text-[17px] text-[#1c2421] leading-snug">Classic Beef Wellington</h3>
+<p class="text-[11px] font-medium text-[#7d8682] tracking-wide mt-0.5">ID: #REC-4831</p>
+</div>
+</td>
+<td class="py-4 px-6 text-[#353f3b] font-normal">British</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-2.5 py-1 rounded text-[11px] font-semibold bg-[#ebeceb] text-[#626767]">
+                  Draft
+                </span>
+</td>
+<td class="py-4 px-6 text-[#5b6460]">
+<span>Oct 26, 2023</span> <span class="text-[#8e9793]">by Chef M.</span>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="px-3.5 py-1.5 border border-[#cfc9bc] rounded text-[12px] font-medium text-[#2d3632] hover:bg-[#f5f3ee] transition-colors" type="button">
+                  View
+                </button>
+</td>
+</tr>
+</tbody>
+</table>
+<!-- Table Footer: Pagination & Record Count -->
+<div class="px-6 py-4 border-t border-[#ece8df] flex items-center justify-between bg-white text-[12px] text-[#6b7571]">
+<span>Showing 1 to 3 of 124 recipes</span>
+<nav aria-label="Pagination" class="flex items-center gap-1.5 select-none">
+<!-- Prev Button -->
+<button class="w-7 h-7 flex items-center justify-center border border-[#d6d0c4] rounded text-[#6b7571] hover:bg-[#f6f4f0] transition-colors">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+<!-- Page 1 (Active) -->
+<button class="w-7 h-7 flex items-center justify-center border border-[#315e4f] rounded text-[#315e4f] font-semibold bg-[#f0f5f3]">
+              1
+            </button>
+<!-- Page 2 -->
+<button class="w-7 h-7 flex items-center justify-center border border-[#d6d0c4] rounded text-[#4d5753] hover:bg-[#f6f4f0] transition-colors">
+              2
+            </button>
+<!-- Page 3 -->
+<button class="w-7 h-7 flex items-center justify-center border border-[#d6d0c4] rounded text-[#4d5753] hover:bg-[#f6f4f0] transition-colors">
+              3
+            </button>
+<!-- Ellipsis -->
+<span class="px-1 text-[#8b9591]">...</span>
+<!-- Next Button -->
+<button class="w-7 h-7 flex items-center justify-center border border-[#d6d0c4] rounded text-[#6b7571] hover:bg-[#f6f4f0] transition-colors">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+</nav>
+</div>
+</section>
+<!-- END: Recipes Table -->
+</main>
+<!-- END: MainContent -->
+</div>
+<!-- END: MainContentWrapper -->
+</body></html>

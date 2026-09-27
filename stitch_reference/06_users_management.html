@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mealist.ai - Users Directory</title>
+<!-- Tailwind CSS v3 with Plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts: Playfair Display / Cormorant Garamond for elegant serif, Inter for sans -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;family=Inter:wght@400;500;600&amp;family=Playfair+Display:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Configuration -->
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              forest: '#235347',
+              dark: '#1b4339',
+              lightgreen: '#e4f3eb',
+              textgreen: '#1f5942'
+            },
+            cream: {
+              50: '#FAF8F5',
+              100: '#F6F3EE',
+              200: '#EFECE6',
+              300: '#E7E3DC'
+            }
+          },
+          fontFamily: {
+            serif: ['"Playfair Display"', 'Georgia', 'serif'],
+            display: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            sans: ['Inter', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+<!-- Layout & Custom Styles -->
+<style data-purpose="layout">
+    body {
+      background-color: #F7F5F0;
+      color: #333333;
+      font-family: 'Inter', sans-serif;
+    }
+    .font-serif-title {
+      font-family: 'Playfair Display', Georgia, serif;
+    }
+    .custom-select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236B7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+      background-position: right 0.25rem center;
+      background-repeat: no-repeat;
+      background-size: 1rem;
+      padding-right: 1.5rem;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-row antialiased selection:bg-[#235347] selection:text-white">
+<!-- BEGIN: Sidebar -->
+<aside class="w-64 min-h-screen flex flex-col justify-between border-r border-[#E8E4DD] bg-[#F7F5F0] px-5 py-7 flex-shrink-0" data-purpose="main-navigation">
+<div>
+<!-- Brand Logo / Identity -->
+<div class="mb-10 px-2">
+<h1 class="font-serif-title text-3xl font-bold tracking-tight text-[#235347]">Mealist.ai</h1>
+<p class="text-xs text-[#7A7874] mt-1 font-medium tracking-wide">Premium Data Platform</p>
+</div>
+<!-- Navigation Links -->
+<nav aria-label="Sidebar Menu" class="space-y-1.5">
+<!-- Dashboard Link -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-[#4A5568] hover:bg-[#ECE8E0] transition-colors" href="#">
+<svg class="w-5 h-5 text-[#4A5568]" fill="currentColor" viewbox="0 0 24 24">
+<path d="M4 4h6v6H4V4zm10 0h6v6h-6V4zM4 14h6v6H4v-6zm10 0h6v6h-6v-6z"></path>
+</svg>
+          Dashboard
+        </a>
+<!-- Users Link (Active State) -->
+<div class="relative">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-[#235347] bg-[#ECE7DE] border-r-[3px] border-[#235347] rounded-r-none transition-colors" href="#">
+<svg class="w-5 h-5 text-[#235347]" fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24">
+<path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+            Users
+          </a>
+</div>
+<!-- Recipes Link -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-[#4A5568] hover:bg-[#ECE8E0] transition-colors" href="#">
+<svg class="w-5 h-5 text-[#4A5568]" fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24">
+<path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+          Recipes
+        </a>
+<!-- Subscription Link -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-[#4A5568] hover:bg-[#ECE8E0] transition-colors" href="#">
+<svg class="w-5 h-5 text-[#4A5568]" fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24">
+<path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+          Subscription
+        </a>
+<!-- Settings Link -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-[#4A5568] hover:bg-[#ECE8E0] transition-colors" href="#">
+<svg class="w-5 h-5 text-[#4A5568]" fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24">
+<path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" stroke-linecap="round" stroke-linejoin="round"></path>
+<path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+          Settings
+        </a>
+</nav>
+</div>
+<!-- Bottom Actions: Logout -->
+<div class="px-2 pt-4 border-t border-[#EAE6DE]">
+<a class="flex items-center gap-3 text-sm font-medium text-[#4A5568] hover:text-black transition-colors" href="#">
+<svg class="w-5 h-5 text-[#4A5568]" fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24">
+<path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+        Logout
+      </a>
+</div>
+</aside>
+<!-- END: Sidebar -->
+<!-- BEGIN: Main Page Content -->
+<div class="flex-1 flex flex-col min-w-0">
+<!-- BEGIN: Top Header Bar -->
+<header class="h-20 bg-[#F7F5F0] border-b border-[#E8E4DD] px-8 flex items-center justify-between flex-shrink-0" data-purpose="top-header">
+<div>
+<h2 class="font-serif-title text-2xl font-bold text-[#235347]">Dashboard</h2>
+<p class="text-xs text-[#6B7280] mt-0.5">Here's what needs your attention today.</p>
+</div>
+<!-- Header Right Utilities (Notifications + Profile Avatar) -->
+<div class="flex items-center gap-4">
+<!-- Notification Bell with Red Badge Indicator -->
+<button aria-label="Notifications" class="relative p-2 text-[#4A5568] hover:text-[#235347] transition-colors focus:outline-none" type="button">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24">
+<path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span class="absolute top-1.5 right-1.5 block w-2 h-2 rounded-full bg-[#E5484D] ring-2 ring-[#F7F5F0]"></span>
+</button>
+<!-- Admin Profile Avatar -->
+<img alt="Admin Profile Avatar" class="w-9 h-9 rounded-full object-cover border border-[#D5D0C6]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLPaUw9E4_D1FfugaHKhgkEkxkRFaF22JDGyhB-MbVSYyYV8IpaWUHf24J9LgGjhj-pMkKFsN4n49-iML6VAOalKOebQdv-K6smcNBM-04yHOsTn7kGGRLLQGsa8WPEQiOHUc_YX2v7JjkEMoJr04VjYSsvXP3W-2k2aTcbtLjaN8Q6Kwg8eyJ7mm5dpKms0BN-vJL_dRtK9FKg9qrX554LuBVKf9Icnp6obtQqzZ9gsZUzliv5FbdMg"/>
+</div>
+</header>
+<!-- END: Top Header Bar -->
+<!-- BEGIN: Main Users Directory Section -->
+<main class="flex-1 px-8 py-8 overflow-y-auto" data-purpose="user-management">
+<!-- Title & Export Action Header -->
+<div class="flex items-start justify-between mb-8">
+<div>
+<h2 class="font-serif-title text-3xl font-bold text-[#1F2937] tracking-tight">Users</h2>
+<p class="text-sm text-[#6B7280] mt-1.5">Manage Mealist.ai user accounts.</p>
+</div>
+<!-- Export Users Button -->
+<button class="inline-flex items-center gap-2 px-4 py-2 bg-white border border-[#D1D5DB] rounded-md text-xs font-semibold text-[#374151] hover:bg-gray-50 shadow-sm transition-all focus:outline-none" type="button">
+<svg class="w-4 h-4 text-[#4B5563]" fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24">
+<path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+          Export Users
+        </button>
+</div>
+<!-- Filters & Results Bar -->
+<div class="flex items-center justify-between text-xs text-[#6B7280] mb-4 pb-1">
+<div class="flex items-center gap-6">
+<!-- Plan Filter -->
+<div class="flex items-center gap-1.5">
+<span class="font-bold tracking-wider text-[#4B5563] uppercase text-[11px]">PLAN:</span>
+<select class="custom-select appearance-none bg-transparent border-0 py-0 pl-1 pr-5 text-xs font-semibold text-[#1F2937] focus:ring-0 cursor-pointer">
+<option>All</option>
+<option>Free</option>
+<option>Plus</option>
+<option>Pro</option>
+</select>
+</div>
+<!-- Vertical Divider -->
+<div class="h-4 w-px bg-[#D6D2CA]"></div>
+<!-- Status Filter -->
+<div class="flex items-center gap-1.5">
+<span class="font-bold tracking-wider text-[#4B5563] uppercase text-[11px]">STATUS:</span>
+<select class="custom-select appearance-none bg-transparent border-0 py-0 pl-1 pr-5 text-xs font-semibold text-[#1F2937] focus:ring-0 cursor-pointer">
+<option>All</option>
+<option>Active</option>
+<option>Inactive</option>
+<option>Pending</option>
+</select>
+</div>
+</div>
+<!-- Counter Indicator -->
+<span class="text-xs font-medium text-[#4B5563]">Showing 2 results</span>
+</div>
+<!-- Search Input Box -->
+<div class="relative mb-6">
+<div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+<svg class="h-4 w-4 text-[#6B7280]" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<input class="w-full bg-[#FAF9F5] border border-[#E5E0D8] rounded-md py-2 pl-10 pr-4 text-xs text-[#1F2937] placeholder-[#6B7280] focus:outline-none focus:ring-1 focus:ring-[#235347] focus:border-[#235347] transition-all" placeholder="Search by name or email" type="text"/>
+</div>
+<!-- Users Table Card -->
+<div class="bg-white rounded-lg border border-[#E5E1D8] shadow-sm overflow-hidden" data-purpose="users-table-container">
+<table class="w-full text-left border-collapse" id="users-directory-table">
+<thead>
+<tr class="border-b border-[#ECE7DE] bg-white text-[11px] font-bold text-[#6B7280] uppercase tracking-wider">
+<th class="py-3 px-6 font-semibold" scope="col">User</th>
+<th class="py-3 px-6 font-semibold" scope="col">Email</th>
+<th class="py-3 px-6 font-semibold" scope="col">Plan</th>
+<th class="py-3 px-6 font-semibold" scope="col">Status</th>
+<th class="py-3 px-6 font-semibold" scope="col">Joined</th>
+<th class="py-3 px-6 font-semibold text-center" scope="col">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-[#ECE7DE] text-sm">
+<!-- Row 1: Alex Johnson -->
+<tr class="hover:bg-[#FAF9F6] transition-colors">
+<td class="py-3.5 px-6 whitespace-nowrap">
+<div class="flex items-center gap-3">
+<img alt="Alex Johnson" class="w-9 h-9 rounded-md object-cover border border-[#E5E1D8]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaeMv15n4Zy-tPKbdXzfjzMMsk9g2Wke93VTUQ0p_6aRZmgCjh0xj5-rj1VqsYXlHp9oVEuPcfDMg39P6JsZhGJrlFAeGywhfzYW56O2FN81BW-RkL_slpeCI7Ayxa5MCSF8ULFOJnpWth3cXwSbr0nhdQEa-_hw0UJn4CGM97Z3PqnVT1it2m7tAssXI25MfvVmCCbqdCuOqBssJxf834sEYxD-1YPmDptEaCpgQMk-pXooK5gsRMEg"/>
+<span class="font-serif-title text-[15px] font-bold text-[#1F2937]">Alex Johnson</span>
+</div>
+</td>
+<td class="py-3.5 px-6 whitespace-nowrap text-xs text-[#4B5563]">
+                alex@email.com
+              </td>
+<td class="py-3.5 px-6 whitespace-nowrap">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-[#FEEED8] text-[#B45309]">
+                  Plus
+                </span>
+</td>
+<td class="py-3.5 px-6 whitespace-nowrap">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-[#D1F2DF] text-[#1E7249]">
+                  Active
+                </span>
+</td>
+<td class="py-3.5 px-6 whitespace-nowrap text-xs text-[#4B5563]">
+                Aug 21, 2026
+              </td>
+<td class="py-3.5 px-6 whitespace-nowrap text-center">
+<div class="flex items-center justify-center gap-2.5">
+<!-- Block User Button -->
+<button class="text-[#E02424] hover:opacity-80 transition-opacity" title="Block user" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24">
+<path d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+<!-- View Details Button -->
+<button class="text-[#10B981] hover:opacity-80 transition-opacity" title="View profile" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24">
+<path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round"></path>
+<path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2: Sarah Ahmed -->
+<tr class="hover:bg-[#FAF9F6] transition-colors">
+<td class="py-3.5 px-6 whitespace-nowrap">
+<div class="flex items-center gap-3">
+<img alt="Sarah Ahmed" class="w-9 h-9 rounded-md object-cover border border-[#E5E1D8]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCaWGteCMfR11uIdZDvFwoORZpKjonUbDK3PQR9jCzPGo-Pgslv7q4ELDDjJw0pCrCWPDD7TRMJFo3rl1cf3ubXWw94NXBc5FraUPk_WooImCWb3jm2AvX9fMtEJZf7A9_mzk7yTejFhDBq_ZFRvrdlrt-Yn16gy9CBejfv4jBp_4ODlhEIcp4B3ySaWpPrAjOFO6ViLaJWxI78Q7vgsUh8DA9KQRw3wLk_Lw8YQAwKD_8JudgrIt-BNQ"/>
+<span class="font-serif-title text-[15px] font-bold text-[#1F2937]">Sarah Ahmed</span>
+</div>
+</td>
+<td class="py-3.5 px-6 whitespace-nowrap text-xs text-[#4B5563]">
+                sarah@email.com
+              </td>
+<td class="py-3.5 px-6 whitespace-nowrap">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-[#E5E7EB] text-[#4B5563]">
+                  Free
+                </span>
+</td>
+<td class="py-3.5 px-6 whitespace-nowrap">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-[#D1F2DF] text-[#1E7249]">
+                  Active
+                </span>
+</td>
+<td class="py-3.5 px-6 whitespace-nowrap text-xs text-[#4B5563]">
+                Aug 20, 2026
+              </td>
+<td class="py-3.5 px-6 whitespace-nowrap text-center">
+<div class="flex items-center justify-center gap-2.5">
+<!-- Block User Button -->
+<button class="text-[#E02424] hover:opacity-80 transition-opacity" title="Block user" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24">
+<path d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+<!-- View Details Button -->
+<button class="text-[#10B981] hover:opacity-80 transition-opacity" title="View profile" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24">
+<path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round"></path>
+<path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</main>
+<!-- END: Main Users Directory Section -->
+</div>
+<!-- END: Main Page Content -->
+</body></html>
