@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mealist.ai - Subscription Management</title>
+<!-- Tailwind CSS v3 with plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              DEFAULT: '#205844',
+              hover: '#194737',
+              dark: '#163b2e',
+              light: '#d2e7d6',
+              bg: '#F8F6F0',
+              sidebar: '#F3EFE6'
+            },
+            badge: {
+              bg: '#DDECE2',
+              text: '#235944'
+            }
+          },
+          fontFamily: {
+            serif: ['Georgia', 'Cambria', 'serif'],
+            sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+<!-- Typography and Custom Layout Styles -->
+<style data-purpose="custom-typography">
+    .font-brand-serif {
+      font-family: 'Playfair Display', Georgia, serif;
+    }
+  </style>
+</head>
+<body class="bg-[#F8F6F0] text-gray-800 antialiased min-h-screen flex font-sans selection:bg-brand selection:text-white">
+<!-- BEGIN: Sidebar -->
+<aside class="w-64 flex-shrink-0 flex flex-col justify-between border-r border-[#E8E3D7] bg-[#F8F6F0] min-h-screen px-6 py-7" data-purpose="primary-sidebar">
+<div>
+<!-- Brand Logo Header -->
+<div class="mb-10">
+<h1 class="font-brand-serif text-3xl font-bold tracking-tight text-[#205844] leading-tight">Mealist.ai</h1>
+<p class="text-[13px] text-gray-500 font-medium tracking-wide mt-1">Premium Data Platform</p>
+</div>
+<!-- Navigation Links -->
+<nav aria-label="Sidebar Menu" class="space-y-1.5">
+<!-- Dashboard Link -->
+<a class="flex items-center gap-3.5 px-3.5 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-[#eee8dc]/50 transition-colors" href="#">
+<svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24">
+<path d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span>Dashboard</span>
+</a>
+<!-- Users Link -->
+<a class="flex items-center gap-3.5 px-3.5 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-[#eee8dc]/50 transition-colors" href="#">
+<svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24">
+<path d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span>Users</span>
+</a>
+<!-- Recipes Link -->
+<a class="flex items-center gap-3.5 px-3.5 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-[#eee8dc]/50 transition-colors" href="#">
+<svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24">
+<path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span>Recipes</span>
+</a>
+<!-- Subscription Active Link -->
+<a class="flex items-center justify-between px-3.5 py-2.5 rounded-l-lg bg-[#EAE4D7] text-sm font-semibold text-[#205844] relative -mr-6 pr-6 border-r-4 border-[#205844] transition-colors" href="#">
+<div class="flex items-center gap-3.5">
+<svg class="w-5 h-5 text-[#205844]" fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24">
+<path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span>Subscription</span>
+</div>
+</a>
+<!-- Settings Link -->
+<a class="flex items-center gap-3.5 px-3.5 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-[#eee8dc]/50 transition-colors" href="#">
+<svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24">
+<path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" stroke-linecap="round" stroke-linejoin="round"></path>
+<path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span>Settings</span>
+</a>
+</nav>
+</div>
+<!-- Sidebar Bottom / Logout -->
+<div>
+<a class="flex items-center gap-3.5 px-3.5 py-2.5 text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors" href="#">
+<svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24">
+<path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span>Logout</span>
+</a>
+</div>
+</aside>
+<!-- END: Sidebar -->
+<!-- BEGIN: Main Area -->
+<div class="flex-1 flex flex-col min-w-0">
+<!-- BEGIN: Top Navigation Header -->
+<header class="border-b border-[#E8E3D7] bg-[#F8F6F0] px-10 py-5 flex items-center justify-between" data-purpose="top-header">
+<!-- Title & Greeting -->
+<div>
+<h2 class="font-brand-serif text-2xl font-bold text-[#205844] leading-snug">Dashboard</h2>
+<p class="text-sm text-gray-500 font-normal">Here's what needs your attention today.</p>
+</div>
+<!-- Action Items & Avatar -->
+<div class="flex items-center gap-5">
+<!-- Notification Bell -->
+<button aria-label="Notifications" class="relative text-gray-600 hover:text-gray-900 transition-colors p-1" type="button">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span class="absolute top-0.5 right-0.5 w-2 h-2 bg-red-600 rounded-full ring-2 ring-[#F8F6F0]"></span>
+</button>
+<!-- Admin Profile Picture -->
+<div class="h-9 w-9 rounded-full overflow-hidden border border-gray-300">
+<img alt="User Profile Avatar" class="h-full w-full object-cover object-top" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOuuxL0TD6Gd9W0yfXViF4Au0sF6kSJj973Bcn-E177tuPKl7HW6yDrYnhhVTl7JclibFFjirtz95I4zT46TSuX4Ed9K6XYwQDo25Krd7Zxtapez7K_mx6BqORD9Q5a2h_PC5jsDOhlGwYJQNNaW_P0uUuOsHRz38gDzFyg1uxTXnVbiF5wFuM-FhGmMVbPce9cmnKLwCvFLmvmTQ_JFGUwht3Gix8rQF-WVaPR9JwxqU_8NLjeZ8A2mTz4vYTQrPTVME"/>
+</div>
+</div>
+</header>
+<!-- END: Top Navigation Header -->
+<!-- BEGIN: Main Page Content -->
+<main class="flex-1 px-10 py-8 overflow-y-auto">
+<!-- Section Title & Action Button -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between pb-8 gap-4">
+<div>
+<h1 class="font-brand-serif text-3xl font-bold text-gray-900">Subscription</h1>
+<p class="text-sm text-gray-500 mt-1">Monitor Mealist.ai subscription activity.</p>
+</div>
+<button class="inline-flex items-center justify-center gap-2 bg-[#205844] hover:bg-[#184535] text-white text-sm font-semibold px-4 py-2.5 rounded-lg shadow-sm transition-all duration-150" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24">
+<path d="M12 4v16m8-8H4" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span>Add a Plan</span>
+</button>
+</div>
+<!-- Dashboard Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<!-- BEGIN: Plan Breakdown Card (Left) -->
+<div class="lg:col-span-8 bg-white border border-[#E9E4D9] rounded-xl p-6 shadow-sm" data-purpose="plan-breakdown">
+<h3 class="font-brand-serif text-xl font-bold text-gray-900 mb-6">Plan Breakdown</h3>
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-gray-100 text-[11px] font-bold text-gray-400 uppercase tracking-wider">
+<th class="pb-3 font-semibold" scope="col">PLAN</th>
+<th class="pb-3 font-semibold" scope="col">USERS</th>
+<th class="pb-3 font-semibold text-center" scope="col">STATUS</th>
+<th class="pb-3 font-semibold text-right" scope="col">ACTIONS</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-gray-100 text-sm">
+<!-- Row 1: Free -->
+<tr class="group hover:bg-gray-50/60 transition-colors">
+<td class="py-4.5 pr-4">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-[#EFECE6] flex items-center justify-center text-gray-600 flex-shrink-0">
+<!-- Sprout/Leaf Icon -->
+<svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24">
+<path d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21V9m0 0a3.001 3.001 0 013-3h2.25M12 9a3.001 3.001 0 00-3-3H6.75" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<span class="font-semibold text-gray-900">Free</span>
+</div>
+</td>
+<td class="py-4.5 text-gray-600 font-normal">11,594</td>
+<td class="py-4.5 text-center">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#DCEEE3] text-[#225743]">
+                    Active
+                  </span>
+</td>
+<td class="py-4.5 text-right">
+<a class="font-medium text-[#205844] hover:underline" href="#">Edit</a>
+</td>
+</tr>
+<!-- Row 2: Plus Monthly -->
+<tr class="group hover:bg-gray-50/60 transition-colors">
+<td class="py-4.5 pr-4">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-[#9CE6D1]/40 flex items-center justify-center text-teal-800 flex-shrink-0">
+<!-- Calendar Icon -->
+<svg class="w-5 h-5 text-teal-700" fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24">
+<path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<span class="font-semibold text-gray-900">Plus Monthly</span>
+</div>
+</td>
+<td class="py-4.5 text-gray-600 font-normal">624</td>
+<td class="py-4.5 text-center">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#DCEEE3] text-[#225743]">
+                    Active
+                  </span>
+</td>
+<td class="py-4.5 text-right">
+<a class="font-medium text-[#205844] hover:underline" href="#">Edit</a>
+</td>
+</tr>
+<!-- Row 3: Plus Yearly -->
+<tr class="group hover:bg-gray-50/60 transition-colors">
+<td class="py-4.5 pr-4">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-[#EAB368] flex items-center justify-center text-white flex-shrink-0">
+<!-- Ribbon/Award Icon -->
+<svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24">
+<path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<span class="font-semibold text-gray-900">Plus Yearly</span>
+</div>
+</td>
+<td class="py-4.5 text-gray-600 font-normal">624</td>
+<td class="py-4.5 text-center">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#DCEEE3] text-[#225743]">
+                    Active
+                  </span>
+</td>
+<td class="py-4.5 text-right">
+<a class="font-medium text-[#205844] hover:underline" href="#">Edit</a>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- END: Plan Breakdown Card -->
+<!-- BEGIN: Usage Overview Card (Right) -->
+<div class="lg:col-span-4 bg-white border border-[#E9E4D9] rounded-xl p-6 shadow-sm" data-purpose="usage-overview">
+<h3 class="font-brand-serif text-xl font-bold text-gray-900 mb-6">Usage Overview</h3>
+<!-- Stat Section -->
+<div class="mb-5">
+<span class="text-[11px] font-bold text-gray-500 tracking-wider uppercase block mb-2">AI OPERATIONS THIS MONTH</span>
+<div class="flex items-baseline gap-1.5">
+<span class="font-brand-serif text-3xl font-extrabold text-gray-900 tracking-tight">1.2M</span>
+<span class="text-sm font-medium text-gray-500">/ 5M Limit</span>
+</div>
+<!-- Progress Bar -->
+<div class="w-full bg-[#EAE6DD] h-2 rounded-full mt-3 overflow-hidden">
+<div class="bg-[#205844] h-2 rounded-full" style="width: 24%;"></div>
+</div>
+</div>
+<!-- Bottom Micro-Breakdown Row -->
+<div class="pt-5 border-t border-gray-100 flex items-center justify-between text-xs">
+<div class="flex items-center gap-2">
+<div class="w-5 h-5 rounded bg-[#EFECE6] flex items-center justify-center text-gray-600 flex-shrink-0">
+<svg class="w-3.5 h-3.5 text-gray-500" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21V9m0 0a3.001 3.001 0 013-3h2.25M12 9a3.001 3.001 0 00-3-3H6.75" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<span class="font-semibold text-gray-800">Free</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-gray-500 font-medium">11,594</span>
+<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-[#DCEEE3] text-[#225743]">
+                Active
+              </span>
+<a class="font-semibold text-[#205844] hover:underline" href="#">Edit</a>
+</div>
+</div>
+</div>
+<!-- END: Usage Overview Card -->
+</div>
+</main>
+<!-- END: Main Page Content -->
+</div>
+<!-- END: Main Area -->
+</body></html>

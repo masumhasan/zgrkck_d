@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mealist.ai - Settings</title>
+<!-- Tailwind CSS CDN with Forms & Container Queries -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts for Serif & Sans-Serif Typography -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['"Instrument Serif"', 'Georgia', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              primary: '#2D5A43',
+              dark: '#1E3F2E',
+              light: '#E8F1EB',
+              accent: '#3B6E52',
+            },
+            bg: {
+              cream: '#FAF7F2',
+              sidebar: '#F4EFEA',
+            }
+          }
+        }
+      }
+    }
+  </script>
+<style data-purpose="custom-typography">
+    .font-serif-heading {
+      font-family: 'Instrument Serif', Georgia, serif;
+    }
+  </style>
+</head>
+<body class="bg-[#FAF7F2] text-stone-800 font-sans antialiased min-h-screen flex">
+<!-- BEGIN: Sidebar Navigation -->
+<aside aria-label="Sidebar Navigation" class="w-64 bg-[#FAF7F2] border-r border-stone-200/80 flex flex-col justify-between shrink-0 min-h-screen">
+<div class="p-6">
+<!-- App Logo & Tagline -->
+<div class="mb-8">
+<h1 class="text-3xl font-serif-heading text-[#244b36] tracking-tight font-bold">Mealist.ai</h1>
+<p class="text-xs text-stone-500 mt-1 font-medium">Premium Data Platform</p>
+</div>
+<!-- Navigation Links -->
+<nav aria-label="Main Menu" class="space-y-1.5">
+<!-- Dashboard Link -->
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-stone-600 hover:text-stone-900 hover:bg-stone-200/50 transition-colors text-sm font-medium" href="#">
+<svg class="w-5 h-5 text-stone-500" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Dashboard</span>
+</a>
+<!-- Users Link -->
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-stone-600 hover:text-stone-900 hover:bg-stone-200/50 transition-colors text-sm font-medium" href="#">
+<svg class="w-5 h-5 text-stone-500" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Users</span>
+</a>
+<!-- Recipes Link -->
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-stone-600 hover:text-stone-900 hover:bg-stone-200/50 transition-colors text-sm font-medium" href="#">
+<svg class="w-5 h-5 text-stone-500" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Recipes</span>
+</a>
+<!-- Subscription Link -->
+<a class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-stone-600 hover:text-stone-900 hover:bg-stone-200/50 transition-colors text-sm font-medium" href="#">
+<svg class="w-5 h-5 text-stone-500" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Subscription</span>
+</a>
+<!-- Settings Active Link -->
+<a class="flex items-center justify-between px-3.5 py-2.5 rounded-l-lg bg-[#ece5dc] text-stone-900 font-semibold text-sm relative border-r-4 border-[#244b36] -mr-6 pr-6" href="#">
+<div class="flex items-center gap-3">
+<svg class="w-5 h-5 text-stone-700" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+<path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Settings</span>
+</div>
+</a>
+</nav>
+</div>
+<!-- Logout Option at Bottom -->
+<div class="p-6">
+<a class="flex items-center gap-3 text-stone-600 hover:text-stone-900 text-sm font-medium transition-colors" href="#">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Logout</span>
+</a>
+</div>
+</aside>
+<!-- END: Sidebar Navigation -->
+<!-- BEGIN: Main Content Area -->
+<div class="flex-1 flex flex-col min-w-0">
+<!-- BEGIN: Top Header Bar -->
+<header class="h-16 px-8 flex items-center justify-end border-b border-stone-200/80 bg-[#FAF7F2]">
+<div class="flex items-center gap-4">
+<!-- Notification Bell with Alert Dot -->
+<button aria-label="Notifications" class="relative p-1 text-stone-600 hover:text-stone-900 rounded-full transition-colors" type="button">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
+</button>
+<!-- Admin Profile Avatar -->
+<div class="w-8 h-8 rounded-full overflow-hidden border border-stone-300">
+<img alt="Jane Doe Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJUHIgIsbEcY0QW4ZA4WdbWodfF9djbwG678FiN-6IkwurtaTGj3cCzy4mPmAB8cHl9dAuk03KIC5uiOoFSYo3i17ykl-0J5rCYntf9Ts-OwUBemfA-r-VTY_S_NID6QeJG2UoavDQaGYyYa50126Wtnj5ITLOFnesI8636HF4k1TJS6aPti4jK-vzSDzAAMLFca6QBEKZfBWHTgqxXLvzvXuBfU1boqaWH7Eaka_tcxcBImEZzczKsw"/>
+</div>
+</div>
+</header>
+<!-- END: Top Header Bar -->
+<!-- BEGIN: Page Main Container -->
+<main class="flex-1 px-12 py-10 max-w-5xl">
+<!-- Title Section -->
+<div class="mb-8">
+<h2 class="text-4xl font-serif-heading tracking-tight text-stone-900 font-bold mb-1">Settings</h2>
+<p class="text-stone-500 text-sm">Manage your admin preferences.</p>
+</div>
+<!-- Settings Cards Wrapper -->
+<div class="space-y-6">
+<!-- BEGIN: Admin Profile Card -->
+<section class="bg-white rounded-xl border border-stone-200/90 p-6 shadow-xs" data-purpose="admin-profile-card">
+<h3 class="text-base font-serif-heading font-semibold text-stone-900 mb-4 pb-3 border-b border-stone-100">Admin Profile</h3>
+<div class="flex items-center justify-between pt-1">
+<div class="flex items-center gap-4">
+<!-- Avatar Placeholder Icon -->
+<div class="w-14 h-14 bg-stone-100 rounded-xl flex items-center justify-center text-stone-500 border border-stone-200/70">
+<svg class="w-7 h-7" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+</svg>
+</div>
+<!-- Profile Details -->
+<div>
+<h4 class="text-lg font-serif-heading font-semibold text-stone-900">Jane Doe</h4>
+<p class="text-xs text-stone-500 mb-1.5 font-sans">jane.doe@mealist.ai</p>
+<span class="inline-block bg-[#DCE7E1] text-[#244b36] text-[10px] font-semibold px-2 py-0.5 rounded">Super Admin</span>
+</div>
+</div>
+<!-- Edit Profile Action Button -->
+<button class="px-4 py-2 bg-[#34624b] hover:bg-[#284f3c] text-white text-xs font-medium rounded-md transition-colors shadow-xs" type="button">
+              Edit Profile
+            </button>
+</div>
+</section>
+<!-- END: Admin Profile Card -->
+<!-- BEGIN: Notifications Card -->
+<section class="bg-white rounded-xl border border-stone-200/90 p-6 shadow-xs" data-purpose="notifications-card">
+<div class="mb-4 pb-3 border-b border-stone-100">
+<h3 class="text-base font-serif-heading font-semibold text-stone-900">Notifications</h3>
+<p class="text-xs text-stone-500 mt-0.5">Control which alerts you receive via email.</p>
+</div>
+<!-- Notification Items List -->
+<div class="divide-y divide-stone-100">
+<!-- Safety Alerts Row -->
+<div class="py-4 flex items-center justify-between">
+<div>
+<p class="text-sm font-medium text-stone-800">Safety Alerts</p>
+<p class="text-xs text-stone-500 mt-0.5">Critical notifications regarding ingredient safety or recalls.</p>
+</div>
+<!-- Green Toggle (Checked) -->
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-10 h-5 bg-stone-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#34624b]"></div>
+</label>
+</div>
+<!-- Recipe Review Alerts Row -->
+<div class="py-4 flex items-center justify-between">
+<div>
+<p class="text-sm font-medium text-stone-800">Recipe Review Alerts</p>
+<p class="text-xs text-stone-500 mt-0.5">Notifications when new recipes require admin approval.</p>
+</div>
+<!-- Green Toggle (Checked) -->
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-10 h-5 bg-stone-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#34624b]"></div>
+</label>
+</div>
+<!-- System Alerts Row -->
+<div class="pt-4 flex items-center justify-between">
+<div>
+<p class="text-sm font-medium text-stone-800">System Alerts</p>
+<p class="text-xs text-stone-500 mt-0.5">Platform maintenance and update notifications.</p>
+</div>
+<!-- Gray Toggle (Unchecked) -->
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-10 h-5 bg-stone-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#34624b]"></div>
+</label>
+</div>
+</div>
+</section>
+<!-- END: Notifications Card -->
+<!-- BEGIN: Security Card -->
+<section class="bg-white rounded-xl border border-stone-200/90 p-6 shadow-xs" data-purpose="security-card">
+<div class="mb-4 pb-3 border-b border-stone-100">
+<h3 class="text-base font-serif-heading font-semibold text-stone-900">Security</h3>
+<p class="text-xs text-stone-500 mt-0.5">Manage your authentication and password settings.</p>
+</div>
+<div class="pt-2 flex items-center justify-between">
+<div>
+<p class="text-sm font-medium text-stone-800">Change Password</p>
+<p class="text-xs text-stone-500 mt-0.5">Update your account password. We recommend changing it periodically.</p>
+</div>
+<!-- Outlined Password Button -->
+<button class="px-3.5 py-1.5 text-xs font-medium text-stone-700 bg-white border border-stone-300 rounded hover:bg-stone-50 transition-colors shadow-xs" type="button">
+              Change Password
+            </button>
+</div>
+</section>
+<!-- END: Security Card -->
+</div>
+</main>
+<!-- END: Page Main Container -->
+</div>
+<!-- END: Main Content Area -->
+</body></html>
