@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mealist.ai - User Detail</title>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts: Newsreader / Playfair & Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              bg: '#F8F6F1',
+              sidebar: '#EFECE6',
+              sidebarActive: '#E2DFD7',
+              darkGreen: '#2D5B48',
+              forest: '#1E3B30',
+              accentGreen: '#EBF4EE',
+              greenBadge: '#D8ECE0',
+              badgeText: '#266345',
+              border: '#E8E5DD',
+              subtleText: '#706E6B',
+              muted: '#8D8A82',
+            }
+          },
+          fontFamily: {
+            serif: ['Newsreader', 'Georgia', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+<style data-purpose="custom-layout">
+    body {
+      background-color: #F8F6F1;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: #1F2421;
+    }
+    .font-serif-title {
+      font-family: 'Newsreader', Georgia, serif;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex antialiased selection:bg-brand-darkGreen selection:text-white">
+<!-- BEGIN: Sidebar -->
+<aside class="w-60 bg-brand-sidebar border-r border-[#E5E1D8] flex flex-col justify-between shrink-0 min-h-screen">
+<div class="p-6">
+<!-- App Logo / Title -->
+<div class="mb-10">
+<h1 class="text-3xl font-serif-title font-medium text-brand-forest tracking-tight">Mealist.ai</h1>
+<p class="text-[13px] text-brand-muted mt-0.5 font-normal tracking-wide">Premium Data Platform</p>
+</div>
+<!-- Navigation Links -->
+<nav aria-label="Main Navigation" class="space-y-1.5">
+<!-- Dashboard Link -->
+<a class="flex items-center gap-3.5 px-3.5 py-2.5 rounded-lg text-[14px] font-medium text-brand-forest hover:bg-brand-sidebarActive/50 transition-colors" href="#">
+<svg class="w-[18px] h-[18px] text-brand-darkGreen" fill="currentColor" viewbox="0 0 20 20">
+<path d="M2 4a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2V4zm0 8a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4zm8-8a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2h-4a2 2 0 01-2-2V4zm0 8a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2h-4a2 2 0 01-2-2v-4z"></path>
+</svg>
+          Dashboard
+        </a>
+<!-- Users Link (Active) -->
+<div class="relative">
+<a class="flex items-center gap-3.5 px-3.5 py-2.5 rounded-l-lg bg-brand-sidebarActive text-[14px] font-medium text-brand-forest transition-colors" href="#">
+<svg class="w-[18px] h-[18px] text-brand-forest" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+            Users
+          </a>
+<!-- Active Green Indicator Strip on right -->
+<div class="absolute right-0 top-0 bottom-0 w-1 bg-brand-darkGreen rounded-l-sm"></div>
+</div>
+<!-- Recipes Link -->
+<a class="flex items-center gap-3.5 px-3.5 py-2.5 rounded-lg text-[14px] font-medium text-brand-forest hover:bg-brand-sidebarActive/50 transition-colors" href="#">
+<svg class="w-[18px] h-[18px] text-brand-forest" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+          Recipes
+        </a>
+<!-- Subscription Link -->
+<a class="flex items-center gap-3.5 px-3.5 py-2.5 rounded-lg text-[14px] font-medium text-brand-forest hover:bg-brand-sidebarActive/50 transition-colors" href="#">
+<svg class="w-[18px] h-[18px] text-brand-forest" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+          Subscription
+        </a>
+<!-- Settings Link -->
+<a class="flex items-center gap-3.5 px-3.5 py-2.5 rounded-lg text-[14px] font-medium text-brand-forest hover:bg-brand-sidebarActive/50 transition-colors" href="#">
+<svg class="w-[18px] h-[18px] text-brand-forest" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" stroke-linecap="round" stroke-linejoin="round"></path>
+<path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+          Settings
+        </a>
+</nav>
+</div>
+<!-- Sidebar Bottom: Logout -->
+<div class="p-6">
+<a class="flex items-center gap-3 text-[14px] font-medium text-brand-forest hover:opacity-80 transition-opacity" href="#">
+<svg class="w-5 h-5 text-brand-forest" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+        Logout
+      </a>
+</div>
+</aside>
+<!-- END: Sidebar -->
+<!-- BEGIN: Main Content Area -->
+<div class="flex-1 flex flex-col min-w-0">
+<!-- BEGIN: Top Header -->
+<header class="h-[76px] border-b border-[#EBE7DF] bg-[#F8F6F1] px-8 flex items-center justify-between">
+<!-- Title & Greeting -->
+<div>
+<h2 class="text-xl font-serif-title font-medium text-brand-forest">Dashboard</h2>
+<p class="text-[13px] text-brand-subtleText">Here's what needs your attention today.</p>
+</div>
+<!-- Right Header Actions (Alert Bell & Admin Avatar) -->
+<div class="flex items-center gap-4">
+<!-- Bell Notification -->
+<button aria-label="Notifications" class="relative p-1 text-gray-700 hover:text-gray-900 transition-colors">
+<svg class="w-[21px] h-[21px]" fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24">
+<path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+</button>
+<!-- Admin Profile Avatar -->
+<img alt="Admin user avatar" class="w-9 h-9 rounded-full object-cover ring-1 ring-black/10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvf8Bz_EdE2KkUivp8n0456f9LhUnRz5dLc2X5nvT_Xc4r2j5bCZGmn0oBqlvROsIdQy7K6KArdbem_Xb_l4VabxMYXq--SgN6TntQg5y-dhR9MrTijsSkne71Z02f9qrtq_xZ2UPmT4LcjngM916hK9qrft6WUXPNtq_BgHK7-NFtM0888oVsCo5tHHpLnL0TziVKQ7AhPZkzFX2RjwEtx7-MNkqCjBGAPmLmrdUV4-7vb90uO9FG9A"/>
+</div>
+</header>
+<!-- END: Top Header -->
+<!-- BEGIN: Page Content -->
+<main class="flex-1 p-8 overflow-y-auto">
+<!-- Back Navigation Link -->
+<div class="mb-5">
+<a class="inline-flex items-center gap-2 text-[13px] font-medium text-brand-forest hover:opacity-75 transition-opacity" href="#">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M10 19l-7-7m0 0l7-7m-7 7h18" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+          Back to Users
+        </a>
+</div>
+<!-- User Title Header & Status Badge -->
+<div class="flex items-center justify-between mb-8">
+<h1 class="text-[34px] font-serif-title font-medium text-brand-forest">Alex Johnson</h1>
+<div class="flex items-center gap-1.5 px-3 py-1 bg-[#DCEEE3] text-brand-badgeText rounded-md text-[13px] font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-brand-badgeText"></span>
+          Active
+        </div>
+</div>
+<!-- Two-Column Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<!-- BEGIN: Left Column (Profile & Activity) -->
+<div class="lg:col-span-8 space-y-8">
+<!-- User Profile Card -->
+<section class="bg-white rounded-xl border border-brand-border p-6 shadow-sm" data-purpose="user-info-card">
+<div class="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+<!-- Alex Johnson Portrait Avatar -->
+<img alt="Alex Johnson" class="w-[84px] h-[84px] rounded-lg object-cover shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCidWJ_n_CuhKlsJeu-ceeKQCeB3oRM0SdyyTvF81ZEHVVu41uqCN72rJWY3JH0GtjQsdhP75T-UKox7tPkAc8yZDTG80Ye7OwyxXEsRhKDVYnOZ6--hvg09MTIf4JKT6ABFKwMbllmA-1QZJJ6C0Fqqiwei2u0_dKgc3e48rK-3YaPbMAafk4RAL2AQ3uvXHUpPmvhOnK3snnyqgKuZg0X9Nat_Ausq-jAcqt07gvIGmwIYXRvtTuHKQ"/>
+<!-- User Metadata Grid -->
+<div class="grid grid-cols-2 gap-y-5 gap-x-12 w-full">
+<div>
+<p class="text-[11px] font-semibold tracking-wider text-brand-muted uppercase">Email Address</p>
+<p class="text-[14px] text-gray-900 font-normal mt-0.5">alex@email.com</p>
+</div>
+<div>
+<p class="text-[11px] font-semibold tracking-wider text-brand-muted uppercase">Current Plan</p>
+<p class="text-[14px] text-gray-900 font-semibold mt-0.5">Plus</p>
+</div>
+<div>
+<p class="text-[11px] font-semibold tracking-wider text-brand-muted uppercase">Account Created</p>
+<p class="text-[14px] text-gray-900 font-normal mt-0.5">Aug 21, 2026</p>
+</div>
+<div>
+<p class="text-[11px] font-semibold tracking-wider text-brand-muted uppercase">Last Active</p>
+<p class="text-[14px] text-gray-900 font-normal mt-0.5">Today</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Product Activity Section -->
+<section data-purpose="product-activity">
+<h2 class="text-xl font-serif-title font-medium text-brand-forest mb-4">Product Activity</h2>
+<!-- 4 Metric Stat Cards -->
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+<!-- Card 1: Plans Generated -->
+<div class="bg-white rounded-xl border border-brand-border p-5 flex flex-col justify-between h-[152px] shadow-sm">
+<div class="text-brand-darkGreen">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<div>
+<p class="text-3xl font-serif-title font-medium text-gray-900 leading-none">12</p>
+<p class="text-[13px] text-brand-subtleText mt-2 leading-snug">Plans<br/>Generated</p>
+</div>
+</div>
+<!-- Card 2: Meals Cooked -->
+<div class="bg-white rounded-xl border border-brand-border p-5 flex flex-col justify-between h-[152px] shadow-sm">
+<div class="text-brand-darkGreen">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24">
+<path d="M12 4v2m-4-2v2m8-2v2M3 11h18v2a6 6 0 01-6 6H9a6 6 0 01-6-6v-2z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<div>
+<p class="text-3xl font-serif-title font-medium text-gray-900 leading-none">28</p>
+<p class="text-[13px] text-brand-subtleText mt-2 leading-snug">Meals<br/>Cooked</p>
+</div>
+</div>
+<!-- Card 3: Recipes Saved -->
+<div class="bg-white rounded-xl border border-brand-border p-5 flex flex-col justify-between h-[152px] shadow-sm">
+<div class="text-brand-darkGreen">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<div>
+<p class="text-3xl font-serif-title font-medium text-gray-900 leading-none">16</p>
+<p class="text-[13px] text-brand-subtleText mt-2 leading-snug">Recipes<br/>Saved</p>
+</div>
+</div>
+<!-- Card 4: Recipes Imported -->
+<div class="bg-white rounded-xl border border-brand-border p-5 flex flex-col justify-between h-[152px] shadow-sm">
+<div class="text-brand-darkGreen">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<div>
+<p class="text-3xl font-serif-title font-medium text-gray-900 leading-none">4</p>
+<p class="text-[13px] text-brand-subtleText mt-2 leading-snug">Recipes<br/>Imported</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- END: Left Column -->
+<!-- BEGIN: Right Column (Usage & Danger Zone) -->
+<div class="lg:col-span-4 space-y-6">
+<!-- Current Usage Card -->
+<section class="bg-white rounded-xl border border-brand-border p-6 shadow-sm" data-purpose="current-usage-card">
+<h3 class="text-xl font-serif-title font-medium text-brand-forest mb-5">Current Usage</h3>
+<!-- AI Generation Limit Progress -->
+<div class="mb-5 pb-5 border-b border-gray-100">
+<div class="flex items-center justify-between text-[13px] mb-2 font-medium">
+<span class="text-gray-900">AI Generation Limit</span>
+<span class="text-gray-500 font-normal">12 / 50</span>
+</div>
+<!-- Progress Bar -->
+<div class="w-full bg-[#E8E6E0] rounded-full h-1.5 overflow-hidden">
+<div class="bg-brand-darkGreen h-1.5 rounded-full" style="width: 24%"></div>
+</div>
+<p class="text-[12px] text-brand-muted mt-2.5">Resets on Sep 21, 2026</p>
+</div>
+<!-- Additional Limit Rows -->
+<div class="space-y-3.5 text-[13px]">
+<div class="flex justify-between items-center">
+<span class="text-gray-600">Saved Recipes</span>
+<span class="text-gray-900 font-medium">16 / Unlimited</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-gray-600">Imported Recipes</span>
+<span class="text-gray-900 font-medium">4 / 100</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-gray-600">Custom Ingredients</span>
+<span class="text-gray-900 font-medium">2 / 20</span>
+</div>
+</div>
+</section>
+<!-- Account Actions Card -->
+<section class="bg-white rounded-xl border border-brand-border p-6 shadow-sm" data-purpose="account-actions-card">
+<h3 class="text-xl font-serif-title font-medium text-brand-forest mb-2">Account Actions</h3>
+<p class="text-[12.5px] leading-relaxed text-brand-subtleText mb-5">
+              Manage user access and account status. This action will immediately revoke access.
+            </p>
+<!-- Suspend Account Button -->
+<button class="w-full flex items-center justify-center gap-2 py-2.5 px-4 border border-[#E05252] text-[#D83A3A] rounded-lg hover:bg-red-50 text-[13px] font-medium transition-colors" type="button">
+<svg class="w-4 h-4 text-[#D83A3A]" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+              Suspend Account
+            </button>
+</section>
+</div>
+<!-- END: Right Column -->
+</div>
+</main>
+<!-- END: Page Content -->
+</div>
+<!-- END: Main Content Area -->
+</body></html>
