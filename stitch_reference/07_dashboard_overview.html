@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mealist.ai - Dashboard</title>
+<!-- Tailwind CSS v3 -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts: Playfair Display (Serif) & Inter (Sans) -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,600&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Configuration -->
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['"Playfair Display"', 'Georgia', 'serif'],
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              primary: '#265345',
+              dark: '#1a3c31',
+              light: '#f1f5f3',
+              sidebar: '#EFEFEA',
+              mainBg: '#FAF8F5',
+              border: '#E3E0DA',
+            }
+          }
+        }
+      }
+    }
+  </script>
+<!-- Custom Styling -->
+<style data-purpose="custom-typography">
+    .font-editorial {
+      font-family: 'Playfair Display', Georgia, serif;
+    }
+  </style>
+</head>
+<body class="bg-[#FAF8F5] text-slate-800 font-sans antialiased min-h-screen flex flex-col md:flex-row">
+<!-- BEGIN: Sidebar -->
+<aside class="w-full md:w-64 bg-[#EFEFEA] border-r border-[#E2DFD7] flex flex-col shrink-0 min-h-screen justify-between p-6">
+<!-- Top Sidebar Section -->
+<div class="space-y-8">
+<!-- Brand Logo -->
+<div class="px-2 pt-2">
+<h1 class="text-3xl font-editorial font-bold text-[#244E41] tracking-tight">Mealist.ai</h1>
+<p class="text-xs text-slate-500 font-normal mt-1 tracking-wide">Premium Data Platform</p>
+</div>
+<!-- Navigation Links -->
+<nav aria-label="Sidebar Navigation" class="space-y-1.5">
+<!-- Active Item: Dashboard -->
+<a aria-current="page" class="flex items-center justify-between px-3.5 py-2.5 bg-[#DFDFD9] text-[#244E41] font-medium text-sm rounded-md transition-colors border-r-2 border-[#244E41]" href="#">
+<div class="flex items-center space-x-3">
+<svg class="w-4 h-4 text-[#244E41]" fill="currentColor" viewbox="0 0 20 20">
+<path d="M3 4a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm0 8a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H4a1 1 0 01-1-1v-4zm8-8a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1V4zm0 8a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z"></path>
+</svg>
+<span class="text-xs font-semibold">Dashboard</span>
+</div>
+</a>
+<!-- Users -->
+<a class="flex items-center space-x-3 px-3.5 py-2.5 text-slate-600 hover:text-slate-900 hover:bg-[#E6E6E0] text-xs font-medium rounded-md transition-colors" href="#">
+<svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Users</span>
+</a>
+<!-- Recipes -->
+<a class="flex items-center space-x-3 px-3.5 py-2.5 text-slate-600 hover:text-slate-900 hover:bg-[#E6E6E0] text-xs font-medium rounded-md transition-colors" href="#">
+<svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Recipes</span>
+</a>
+<!-- Subscription -->
+<a class="flex items-center space-x-3 px-3.5 py-2.5 text-slate-600 hover:text-slate-900 hover:bg-[#E6E6E0] text-xs font-medium rounded-md transition-colors" href="#">
+<svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Subscription</span>
+</a>
+<!-- Settings -->
+<a class="flex items-center space-x-3 px-3.5 py-2.5 text-slate-600 hover:text-slate-900 hover:bg-[#E6E6E0] text-xs font-medium rounded-md transition-colors" href="#">
+<svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+<path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Settings</span>
+</a>
+</nav>
+</div>
+<!-- Bottom Sidebar Section (Logout) -->
+<div class="pt-6 border-t border-[#E2DFD7]/60">
+<a class="flex items-center space-x-3 px-3 py-2 text-slate-600 hover:text-slate-900 text-xs font-medium transition-colors" href="#">
+<svg class="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Logout</span>
+</a>
+</div>
+</aside>
+<!-- END: Sidebar -->
+<!-- BEGIN: Main Content Area -->
+<div class="flex-1 flex flex-col min-w-0 bg-[#FAF8F5]">
+<!-- BEGIN: Top Header Bar -->
+<header class="px-8 py-5 border-b border-[#E8E5DF] flex items-center justify-between">
+<div>
+<h2 class="text-2xl font-editorial font-bold text-[#244E41]">Dashboard</h2>
+<p class="text-xs text-slate-500 mt-0.5">Here's what needs your attention today.</p>
+</div>
+<!-- Action Items: Search, Notification, Profile -->
+<div class="flex items-center space-x-5">
+<button aria-label="Search" class="text-slate-600 hover:text-slate-900 transition-colors" type="button">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+</svg>
+</button>
+<button aria-label="Notifications" class="text-slate-600 hover:text-slate-900 relative transition-colors" type="button">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+</svg>
+<!-- Notification Dot Indicator -->
+<span class="absolute 0 top-0 right-0 w-2 h-2 bg-red-600 rounded-full border border-white"></span>
+</button>
+<!-- Admin Profile Avatar -->
+<div class="relative w-9 h-9 rounded-full overflow-hidden border border-[#D5D0C7] ring-1 ring-slate-200">
+<img alt="Admin Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4MkXFKqtTP1dQlcLvIpW-XI8NDQDGsJg6SFMuJ2iY2CD6yBz1t8Gra0iTWKoyxNZrQNkWwxfNCUooYeHDIn8ilacDvb9iyGUcSfDLWOMUWqB8FZE5shuCJzmIpwDTEg8mUaSYODHG8Y2-LHnHoemASB4gXSYv0ElH9t9TXGNCTV3gjVwzOOeDNp6HhjssJQxw-eZIynphzj3b10xc78vNXvBU7HWTg3drkwSUeC3pRJJefETavtpXMA"/>
+</div>
+</div>
+</header>
+<!-- END: Top Header Bar -->
+<!-- BEGIN: Dashboard Content Body -->
+<main class="p-8 space-y-6 flex-1 max-w-7xl">
+<!-- Top Metrics Overview Grid -->
+<section aria-label="Key Performance Indicators" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- Metric Card 1: Total Users -->
+<div class="bg-white border border-[#E5E2DC] rounded-md p-5 flex flex-col justify-between shadow-[0_1px_2px_rgba(0,0,0,0.03)] h-32">
+<span class="text-[11px] font-semibold tracking-wider text-slate-500 uppercase">TOTAL USERS</span>
+<span class="text-3xl font-editorial font-bold text-[#244E41]">12,842</span>
+</div>
+<!-- Metric Card 2: Total Recipes -->
+<div class="bg-white border border-[#E5E2DC] rounded-md p-5 flex flex-col justify-between shadow-[0_1px_2px_rgba(0,0,0,0.03)] h-32">
+<span class="text-[11px] font-semibold tracking-wider text-slate-500 uppercase">TOTAL RECIPES</span>
+<span class="text-3xl font-editorial font-bold text-[#244E41]">786</span>
+</div>
+<!-- Metric Card 3: Total Subscribers -->
+<div class="bg-white border border-[#E5E2DC] rounded-md p-5 flex flex-col justify-between shadow-[0_1px_2px_rgba(0,0,0,0.03)] h-32">
+<span class="text-[11px] font-semibold tracking-wider text-slate-500 uppercase">TOTAL SUBSCRIBERS</span>
+<span class="text-3xl font-editorial font-bold text-[#244E41]">1,248</span>
+</div>
+<!-- Metric Card 4: Total Revenue -->
+<div class="bg-white border border-[#E5E2DC] rounded-md p-5 flex flex-col justify-between shadow-[0_1px_2px_rgba(0,0,0,0.03)] h-32">
+<span class="text-[11px] font-semibold tracking-wider text-slate-500 uppercase">TOTAL REVENUE</span>
+<span class="text-3xl font-editorial font-bold text-[#244E41]">$42,850</span>
+</div>
+</section>
+<!-- Main Two-Column Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+<!-- BEGIN: Left Column (User Overview) -->
+<section aria-labelledby="user-overview-heading" class="lg:col-span-2 bg-white border border-[#E5E2DC] rounded-md p-6 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+<!-- Card Header & Sub-metrics -->
+<div class="flex flex-col sm:flex-row sm:items-baseline justify-between pb-4 border-b border-[#ECEAE4] gap-4">
+<h3 class="text-lg font-editorial font-bold text-[#244E41]" id="user-overview-heading">User Overview</h3>
+<div class="flex items-center space-x-6 text-xs">
+<div class="flex items-baseline space-x-2">
+<span class="text-[10px] font-semibold tracking-wider text-slate-500 uppercase">ACTIVE USERS</span>
+<span class="text-sm font-editorial font-bold text-[#244E41]">11,402</span>
+</div>
+<div class="flex items-baseline space-x-2">
+<span class="text-[10px] font-semibold tracking-wider text-slate-500 uppercase">NEW THIS WEEK</span>
+<span class="text-sm font-editorial font-bold text-[#A66C2F]">+142</span>
+</div>
+</div>
+</div>
+<!-- User Rows List -->
+<div class="divide-y divide-[#F1EFEB] py-2">
+<!-- User 1: John Doe -->
+<div class="py-4 flex items-center justify-between">
+<div class="flex items-center space-x-3.5">
+<div class="w-8 h-8 rounded-full bg-[#E5E7EB] text-slate-600 text-xs font-semibold flex items-center justify-center tracking-tight">
+                  JD
+                </div>
+<div>
+<h4 class="text-xs font-semibold text-slate-800 leading-tight">John Doe</h4>
+<p class="text-[11px] text-slate-500 leading-normal">john.doe@example.com</p>
+</div>
+</div>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-[#E8F1EC] text-[#244E41]">
+                Active
+              </span>
+</div>
+<!-- User 2: Jane Smith -->
+<div class="py-4 flex items-center justify-between">
+<div class="flex items-center space-x-3.5">
+<div class="w-8 h-8 rounded-full bg-[#E5E7EB] text-slate-600 text-xs font-semibold flex items-center justify-center tracking-tight">
+                  JS
+                </div>
+<div>
+<h4 class="text-xs font-semibold text-slate-800 leading-tight">Jane Smith</h4>
+<p class="text-[11px] text-slate-500 leading-normal">jane.s@example.com</p>
+</div>
+</div>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-[#FBF0E4] text-[#B86E2A]">
+                Pending
+              </span>
+</div>
+<!-- User 3: Robert Brown -->
+<div class="py-4 flex items-center justify-between">
+<div class="flex items-center space-x-3.5">
+<div class="w-8 h-8 rounded-full bg-[#E5E7EB] text-slate-600 text-xs font-semibold flex items-center justify-center tracking-tight">
+                  RB
+                </div>
+<div>
+<h4 class="text-xs font-semibold text-slate-800 leading-tight">Robert Brown</h4>
+<p class="text-[11px] text-slate-500 leading-normal">r.brown@example.com</p>
+</div>
+</div>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-[#E8F1EC] text-[#244E41]">
+                Active
+              </span>
+</div>
+</div>
+<!-- Bottom Button Action -->
+<div class="pt-4">
+<a class="w-full flex items-center justify-center space-x-1.5 py-2 px-4 border border-[#D5D1C8] rounded text-xs font-medium text-slate-700 hover:bg-[#FAF9F6] transition-colors" href="#">
+<span>View All Users</span>
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</a>
+</div>
+</section>
+<!-- END: Left Column (User Overview) -->
+<!-- BEGIN: Right Column (Recent Activity) -->
+<section aria-labelledby="recent-activity-heading" class="bg-white border border-[#E5E2DC] rounded-md p-6 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+<h3 class="text-lg font-editorial font-bold text-[#244E41] pb-3" id="recent-activity-heading">Recent Activity</h3>
+<!-- Activity List -->
+<div class="divide-y divide-[#F1EFEB]">
+<!-- Activity Item 1 -->
+<div class="py-3.5 flex items-start space-x-3">
+<span class="w-1.5 h-1.5 rounded-full bg-[#244E41] mt-1.5 shrink-0"></span>
+<div>
+<p class="text-xs font-medium text-slate-800 leading-snug">Recipe "Chicken Tikka Bowl" published</p>
+<span class="text-[11px] text-slate-500">10 mins ago</span>
+</div>
+</div>
+<!-- Activity Item 2 -->
+<div class="py-3.5 flex items-start space-x-3">
+<span class="w-1.5 h-1.5 rounded-full bg-slate-500 mt-1.5 shrink-0"></span>
+<div>
+<p class="text-xs font-medium text-slate-800 leading-snug">Recipe updated</p>
+<span class="text-[11px] text-slate-500">1 hour ago</span>
+</div>
+</div>
+<!-- Activity Item 3 -->
+<div class="py-3.5 flex items-start space-x-3">
+<span class="w-1.5 h-1.5 rounded-full bg-[#B86E2A] mt-1.5 shrink-0"></span>
+<div>
+<p class="text-xs font-medium text-slate-800 leading-snug">New user joined</p>
+<span class="text-[11px] text-slate-500">3 hours ago</span>
+</div>
+</div>
+<!-- Activity Item 4 -->
+<div class="py-3.5 flex items-start space-x-3">
+<span class="w-1.5 h-1.5 rounded-full bg-[#52A287] mt-1.5 shrink-0"></span>
+<div>
+<p class="text-xs font-medium text-slate-800 leading-snug">Subscription upgraded</p>
+<span class="text-[11px] text-slate-500">5 hours ago</span>
+</div>
+</div>
+<!-- Activity Item 5 -->
+<div class="py-3.5 flex items-start space-x-3">
+<span class="w-1.5 h-1.5 rounded-full bg-slate-700 mt-1.5 shrink-0"></span>
+<div>
+<p class="text-xs font-medium text-slate-800 leading-snug">Safety issue resolved</p>
+<span class="text-[11px] text-slate-500">Yesterday</span>
+</div>
+</div>
+</div>
+</section>
+<!-- END: Right Column (Recent Activity) -->
+</div>
+</main>
+<!-- END: Dashboard Content Body -->
+</div>
+<!-- END: Main Content Area -->
+</body></html>

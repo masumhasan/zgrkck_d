@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mealist.ai - Admin Portal</title>
+<!-- Load Tailwind CSS v3 -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'canvas-bg': '#F8F6F1',
+            'forest-green': '#3B6B55',
+            'forest-hover': '#325C48',
+            'heading-dark': '#1F2937',
+            'sub-gray': '#5F6368',
+            'border-light': '#E5E7EB'
+          },
+          fontFamily: {
+            serif: ['Georgia', 'Cambria', '"Times New Roman"', 'Times', 'serif'],
+            sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+<style data-purpose="custom-typography">
+    .font-brand {
+      font-family: "Georgia", serif;
+      letter-spacing: -0.02em;
+    }
+    .font-heading {
+      font-family: "Georgia", serif;
+      letter-spacing: -0.01em;
+    }
+  </style>
+</head>
+<body class="bg-canvas-bg min-h-screen flex items-center justify-center p-4 antialiased selection:bg-[#3B6B55]/10">
+<!-- BEGIN: LoginContainer -->
+<main class="w-full max-w-[420px] bg-white rounded-md border border-[#E5E7EB] shadow-[0_1px_3px_rgba(0,0,0,0.03)] px-10 py-12" data-purpose="login-card">
+<!-- BEGIN: BrandHeader -->
+<header class="text-center mb-7">
+<!-- Logo / Title -->
+<h1 class="font-brand text-[34px] leading-tight font-bold text-forest-green mb-4">
+        Mealist.ai
+      </h1>
+<!-- Admin Portal Badge -->
+<p class="text-[10px] tracking-[0.14em] uppercase font-semibold text-forest-green mb-1.5">
+        ADMIN PORTAL
+      </p>
+<!-- Welcome Heading -->
+<h2 class="font-heading text-[25px] font-bold text-heading-dark mb-1.5">
+        Welcome back
+      </h2>
+<!-- Subtitle Description -->
+<p class="text-[13px] text-sub-gray">
+        Sign in to manage Mealist.ai.
+      </p>
+</header>
+<!-- END: BrandHeader -->
+<!-- BEGIN: LoginForm -->
+<form action="#" class="space-y-4" data-purpose="auth-form" method="POST" onsubmit="event.preventDefault();">
+<!-- Email Input Field -->
+<div>
+<label class="block text-[11px] font-semibold text-gray-800 mb-1.5" for="email">
+          Email Address
+        </label>
+<div class="relative">
+<input autocomplete="email" class="w-full rounded-[4px] border border-gray-200 px-3.5 py-2.5 text-[13px] text-gray-800 placeholder-gray-400 focus:border-forest-green focus:outline-none focus:ring-1 focus:ring-forest-green transition-colors" id="email" name="email" required="" type="email" value="admin@emai"/>
+</div>
+</div>
+<!-- Password Input Field -->
+<div>
+<label class="block text-[11px] font-semibold text-gray-800 mb-1.5" for="password">
+          Password
+        </label>
+<div class="relative">
+<input autocomplete="current-password" class="w-full rounded-[4px] border border-gray-200 px-3.5 py-2.5 pr-10 text-[13px] tracking-wider text-gray-800 placeholder-gray-400 focus:border-forest-green focus:outline-none focus:ring-1 focus:ring-forest-green transition-colors" id="password" name="password" required="" type="password" value="••••••••"/>
+<!-- Eye / Visibility Toggle Icon -->
+<button aria-label="Toggle password visibility" class="absolute inset-y-0 right-0 flex items-center pr-3.5 text-gray-600 hover:text-gray-900 transition-colors focus:outline-none" data-purpose="password-visibility-toggle" id="togglePassword" type="button">
+<svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="1.75" viewbox="0 0 24 24">
+<path d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" stroke-linecap="round" stroke-linejoin="round"></path>
+<path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+</div>
+</div>
+<!-- Action Button -->
+<div class="pt-2">
+<button class="w-full rounded-[4px] bg-[#3B6B55] hover:bg-[#325C48] py-2.5 px-4 text-[13px] font-medium text-white shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-forest-green focus:ring-offset-1 active:translate-y-[0.5px]" type="submit">
+          Sign In
+        </button>
+</div>
+<!-- Forgot Password Link -->
+<div class="text-center pt-2">
+<a class="text-[11px] font-semibold text-forest-green hover:underline focus:outline-none" href="#">
+          Forgot Password?
+        </a>
+</div>
+</form>
+<!-- END: LoginForm -->
+</main>
+<!-- END: LoginContainer -->
+<!-- BEGIN: InteractiveScripts -->
+<script data-purpose="toggle-password-functionality">
+    const toggleButton = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('password');
+
+    if (toggleButton && passwordInput) {
+      toggleButton.addEventListener('click', function () {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+      });
+    }
+  </script>
+<!-- END: InteractiveScripts -->
+</body></html>
