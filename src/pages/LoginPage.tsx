@@ -2,21 +2,29 @@ import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { Logo } from '../components/layout/Logo';
 import { Button } from '../components/ui/Button';
+import { ForgotPasswordModal } from '../components/shared/ForgotPasswordModal';
+import { InlineError } from '../components/shared/StatusViews';
+import { errorMessage } from '../hooks/useAsync';
 
 export const LoginPage: React.FC = () => {
   const { login } = useApp();
-  const [email, setEmail] = useState('admin@mealist.ai');
-  const [password, setPassword] = useState('••••••••');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [showForgot, setShowForgot] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setTimeout(() => {
+    setError(null);
+    try {
+      await login(email.trim(), password);
+    } catch (err) {
+      setError(errorMessage(err));
       setIsLoading(false);
-      login();
-    }, 400);
+    }
   };
 
   return (
@@ -50,6 +58,8 @@ export const LoginPage: React.FC = () => {
             <input
               id="email"
               type="email"
+              autoComplete="username"
+              placeholder="admin@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -67,6 +77,7 @@ export const LoginPage: React.FC = () => {
             <div className="relative">
               <input
                 id="password"
+                autoComplete="current-password"
                 type={showPassword ? 'text' : 'password'}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -101,6 +112,8 @@ export const LoginPage: React.FC = () => {
             </div>
           </div>
 
+          <InlineError message={error} />
+
           <div className="pt-2">
             <Button
               type="submit"
@@ -116,7 +129,7 @@ export const LoginPage: React.FC = () => {
           <div className="text-center pt-2">
             <button
               type="button"
-              onClick={() => alert('Password reset link sent to admin email.')}
+              onClick={() => setShowForgot(true)}
               className="text-[11px] font-semibold text-[#3B6B55] hover:underline focus:outline-none"
             >
               Forgot Password?
@@ -124,6 +137,12 @@ export const LoginPage: React.FC = () => {
           </div>
         </form>
       </main>
+
+      <ForgotPasswordModal
+        isOpen={showForgot}
+        initialEmail={email}
+        onClose={() => setShowForgot(false)}
+      />
     </div>
   );
 };

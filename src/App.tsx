@@ -8,9 +8,18 @@ import { RecipesPage } from './pages/RecipesPage';
 import { SubscriptionPage } from './pages/SubscriptionPage';
 import { AddPlanPage } from './pages/AddPlanPage';
 import { SettingsPage } from './pages/SettingsPage';
+import { LoadingBlock } from './components/shared/StatusViews';
 
 const AppContent: React.FC = () => {
-  const { isAuthenticated, activeTab } = useApp();
+  const { isAuthenticated, isBootstrapping, activeTab } = useApp();
+
+  if (isBootstrapping) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#FAF8F5]">
+        <LoadingBlock label="Restoring your session…" />
+      </div>
+    );
+  }
 
   if (!isAuthenticated) {
     return <LoginPage />;

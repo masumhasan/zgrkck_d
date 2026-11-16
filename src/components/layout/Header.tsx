@@ -1,5 +1,18 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useApp } from '../../context/AppContext';
+import { dashboardApi } from '../../api/plans.api';
+import { timeAgo } from '../../utils/format';
+import type { ActivityItem } from '../../types';
+
+const SEEN_KEY = 'mealist_notifications_seen';
+
+const readSeen = (): number => {
+  try {
+    return Number(localStorage.getItem(SEEN_KEY)) || 0;
+  } catch {
+    return 0;
+  }
+};
 
 export interface HeaderProps {
   title?: string;
@@ -14,21 +27,40 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenMobileMenu,
   headerActions,
 }) => {
-  const {
-    settings,
-    hasUnreadNotification,
-    markNotificationsAsRead,
-    navigateTo,
-    logout,
-  } = useApp();
+  const { admin, navigateTo, logout } = useApp();
+  const [activity, setActivity] = useState<ActivityItem[]>([]);
+  const [seenAt, setSeenAt] = useState<number>(readSeen);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
 
+  const loadActivity = useCallback(() => {
+    dashboardApi
+      .activity(6)
+      .then(setActivity)
+      .catch(() => setActivity([]));
+  }, []);
+
+  useEffect(() => {
+    loadActivity();
+  }, [loadActivity]);
+
+  const newestAt = activity[0] ? new Date(activity[0].createdAt).getTime() : 0;
+  const hasUnreadNotification = newestAt > seenAt;
+
   const handleNotificationClick = () => {
-    setShowNotifications(!showNotifications);
+    const opening = !showNotifications;
+    setShowNotifications(opening);
     setShowProfileMenu(false);
-    if (hasUnreadNotification) {
-      markNotificationsAsRead();
+    if (opening) {
+      loadActivity();
+      if (newestAt) {
+        setSeenAt(newestAt);
+        try {
+          localStorage.setItem(SEEN_KEY, String(newestAt));
+        } catch {
+          /* storage unavailable */
+        }
+      }
     }
   };
 
@@ -109,21 +141,21 @@ export const Header: React.FC<HeaderProps> = ({
                 <span className="text-xs font-bold text-slate-800 uppercase tracking-wider">
                   Notifications
                 </span>
-                <span className="text-[10px] text-slate-500">All caught up</span>
+                <span className="text-[10px] text-slate-500">Recent activity</span>
               </div>
-              <div className="divide-y divide-[#F1EFEB]">
-                <div className="px-4 py-3 hover:bg-[#FAF9F6]">
-                  <p className="text-xs font-semibold text-slate-800">
-                    Recipe "Chicken Tikka Bowl" published
+              <div className="divide-y divide-[#F1EFEB] max-h-80 overflow-y-auto">
+                {activity.length === 0 ? (
+                  <p className="px-4 py-6 text-center text-xs text-slate-500">
+                    No activity yet.
                   </p>
-                  <span className="text-[11px] text-slate-400">10 mins ago</span>
-                </div>
-                <div className="px-4 py-3 hover:bg-[#FAF9F6]">
-                  <p className="text-xs font-semibold text-slate-800">
-                    New subscriber joined Plus Yearly
-                  </p>
-                  <span className="text-[11px] text-slate-400">28 mins ago</span>
-                </div>
+                ) : (
+                  activity.map((item) => (
+                    <div key={item.id} className="px-4 py-3 hover:bg-[#FAF9F6]">
+                      <p className="text-xs font-semibold text-slate-800">{item.title}</p>
+                      <span className="text-[11px] text-slate-400">{timeAgo(item.createdAt)}</span>
+                    </div>
+                  ))
+                )}
               </div>
             </div>
           )}
@@ -138,9 +170,9 @@ export const Header: React.FC<HeaderProps> = ({
           >
             <div className="w-9 h-9 rounded-full overflow-hidden border border-[#D5D0C7] ring-1 ring-slate-200">
               <img
-                alt={settings.name}
+                alt={admin?.name ?? "Admin"}
                 className="w-full h-full object-cover"
-                src={settings.avatarUrl}
+                src={admin?.avatarUrl}
               />
             </div>
           </button>
@@ -150,13 +182,13 @@ export const Header: React.FC<HeaderProps> = ({
             <div className="absolute right-0 mt-2 w-52 bg-white rounded-xl border border-[#E5E2DC] shadow-lg py-2 z-30 animate-in fade-in zoom-in-95">
               <div className="px-4 py-2.5 border-b border-[#ECEAE4]">
                 <p className="text-xs font-semibold text-slate-800">
-                  {settings.name}
+                  {admin?.name ?? "Admin"}
                 </p>
                 <p className="text-[11px] text-slate-500 truncate">
-                  {settings.email}
+                  {admin?.email}
                 </p>
                 <span className="inline-block mt-1 text-[10px] font-semibold bg-[#DCEEE3] text-[#225743] px-1.5 py-0.5 rounded">
-                  {settings.role}
+                  {admin?.role}
                 </span>
               </div>
               <button

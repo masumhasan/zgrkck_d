@@ -1,128 +1,60 @@
-import React, { createContext, useContext, useState } from 'react';
-import type {
-  NavItemId,
-  User,
-  Recipe,
-  SubscriptionPlan,
-  AdminSettings,
-} from '../types';
-import {
-  INITIAL_USERS,
-  INITIAL_RECIPES,
-  INITIAL_PLANS,
-  INITIAL_SETTINGS,
-} from '../constants/mockData';
+import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import type { AdminProfile, NavItemId } from '../types';
+import { authApi } from '../api/auth.api';
+import { setUnauthorizedHandler, tokenStore } from '../api/client';
 
 interface AppContextType {
   activeTab: NavItemId;
-  selectedUserId: string;
+  selectedUserId: string | null;
   isAuthenticated: boolean;
-  users: User[];
-  recipes: Recipe[];
-  plans: SubscriptionPlan[];
-  settings: AdminSettings;
-  searchQuery: string;
-  hasUnreadNotification: boolean;
+  /** True while the stored session is being verified on first load. */
+  isBootstrapping: boolean;
+  admin: AdminProfile | null;
   navigateTo: (tab: NavItemId, userId?: string) => void;
-  login: () => void;
+  login: (email: string, password: string) => Promise<void>;
   logout: () => void;
-  setSearchQuery: (query: string) => void;
-  markNotificationsAsRead: () => void;
-  toggleUserStatus: (userId: string) => void;
-  suspendUser: (userId: string) => void;
-  addPlan: (newPlan: Omit<SubscriptionPlan, 'id' | 'userCount'>) => void;
-  addRecipe: (newRecipe: Omit<Recipe, 'id'>) => void;
-  updateSettings: (partial: Partial<AdminSettings>) => void;
-  toggleNotificationSetting: (
-    key: keyof AdminSettings['notifications']
-  ) => void;
+  setAdmin: (admin: AdminProfile) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
-export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [activeTab, setActiveTab] = useState<NavItemId>('dashboard');
-  const [selectedUserId, setSelectedUserId] = useState<string>('user-1');
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
-  const [users, setUsers] = useState<User[]>(INITIAL_USERS);
-  const [recipes, setRecipes] = useState<Recipe[]>(INITIAL_RECIPES);
-  const [plans, setPlans] = useState<SubscriptionPlan[]>(INITIAL_PLANS);
-  const [settings, setSettings] = useState<AdminSettings>(INITIAL_SETTINGS);
-  const [searchQuery, setSearchQuery] = useState<string>('');
-  const [hasUnreadNotification, setHasUnreadNotification] =
-    useState<boolean>(true);
+  const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
+  const [admin, setAdmin] = useState<AdminProfile | null>(null);
+  const [isBootstrapping, setIsBootstrapping] = useState<boolean>(() => Boolean(tokenStore.get()));
+
+  const logout = useCallback(() => {
+    tokenStore.clear();
+    setAdmin(null);
+    setActiveTab('dashboard');
+    setSelectedUserId(null);
+  }, []);
+
+  // Restore an existing session; an invalid/expired token falls back to the login page.
+  useEffect(() => {
+    setUnauthorizedHandler(logout);
+    if (!tokenStore.get()) return () => setUnauthorizedHandler(null);
+
+    authApi
+      .me()
+      .then(setAdmin)
+      .catch(() => tokenStore.clear())
+      .finally(() => setIsBootstrapping(false));
+    return () => setUnauthorizedHandler(null);
+  }, [logout]);
+
+  const login = useCallback(async (email: string, password: string) => {
+    const result = await authApi.login(email, password);
+    tokenStore.set(result.token);
+    setAdmin(result.admin);
+    setActiveTab('dashboard');
+  }, []);
 
   const navigateTo = (tab: NavItemId, userId?: string) => {
-    if (userId) {
-      setSelectedUserId(userId);
-    }
+    if (userId) setSelectedUserId(userId);
     setActiveTab(tab);
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const login = () => {
-    setIsAuthenticated(true);
-    setActiveTab('dashboard');
-  };
-
-  const logout = () => {
-    setIsAuthenticated(false);
-  };
-
-  const markNotificationsAsRead = () => {
-    setHasUnreadNotification(false);
-  };
-
-  const toggleUserStatus = (userId: string) => {
-    setUsers((prev) =>
-      prev.map((u) => {
-        if (u.id !== userId) return u;
-        const newStatus = u.status === 'Active' ? 'Inactive' : 'Active';
-        return { ...u, status: newStatus };
-      })
-    );
-  };
-
-  const suspendUser = (userId: string) => {
-    setUsers((prev) =>
-      prev.map((u) => (u.id === userId ? { ...u, status: 'Suspended' } : u))
-    );
-  };
-
-  const addPlan = (newPlan: Omit<SubscriptionPlan, 'id' | 'userCount'>) => {
-    const plan: SubscriptionPlan = {
-      ...newPlan,
-      id: `plan-${Date.now()}`,
-      userCount: 0,
-    };
-    setPlans((prev) => [...prev, plan]);
-    setActiveTab('subscription');
-  };
-
-  const addRecipe = (newRecipe: Omit<Recipe, 'id'>) => {
-    const rec: Recipe = {
-      ...newRecipe,
-      id: `rec-${Date.now()}`,
-    };
-    setRecipes((prev) => [rec, ...prev]);
-  };
-
-  const updateSettings = (partial: Partial<AdminSettings>) => {
-    setSettings((prev) => ({ ...prev, ...partial }));
-  };
-
-  const toggleNotificationSetting = (
-    key: keyof AdminSettings['notifications']
-  ) => {
-    setSettings((prev) => ({
-      ...prev,
-      notifications: {
-        ...prev.notifications,
-        [key]: !prev.notifications[key],
-      },
-    }));
   };
 
   return (
@@ -130,24 +62,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
       value={{
         activeTab,
         selectedUserId,
-        isAuthenticated,
-        users,
-        recipes,
-        plans,
-        settings,
-        searchQuery,
-        hasUnreadNotification,
+        isAuthenticated: admin !== null,
+        isBootstrapping,
+        admin,
         navigateTo,
         login,
         logout,
-        setSearchQuery,
-        markNotificationsAsRead,
-        toggleUserStatus,
-        suspendUser,
-        addPlan,
-        addRecipe,
-        updateSettings,
-        toggleNotificationSetting,
+        setAdmin,
       }}
     >
       {children}
@@ -155,6 +76,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useApp = () => {
   const context = useContext(AppContext);
   if (!context) {

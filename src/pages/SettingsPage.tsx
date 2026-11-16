@@ -5,41 +5,88 @@ import { Button } from '../components/ui/Button';
 import { Toggle } from '../components/ui/Toggle';
 import { Modal } from '../components/ui/Modal';
 import { Input } from '../components/ui/Input';
+import { InlineError } from '../components/shared/StatusViews';
+import { authApi } from '../api/auth.api';
+import { errorMessage } from '../hooks/useAsync';
+import type { AdminNotifications } from '../types';
 
 export const SettingsPage: React.FC = () => {
-  const { settings, toggleNotificationSetting, updateSettings } = useApp();
+  const { admin, setAdmin } = useApp();
 
   const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
   const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
 
-  const [name, setName] = useState(settings.name);
-  const [email, setEmail] = useState(settings.email);
+  const [name, setName] = useState(admin?.name ?? '');
+  const [email, setEmail] = useState(admin?.email ?? '');
+  const [profileError, setProfileError] = useState<string | null>(null);
+  const [passwordError, setPasswordError] = useState<string | null>(null);
+  const [notifError, setNotifError] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
 
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordSuccess, setPasswordSuccess] = useState(false);
 
-  const handleProfileSave = (e: React.FormEvent) => {
+  const handleProfileSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    updateSettings({ name, email });
-    setIsEditProfileOpen(false);
+    setBusy(true);
+    setProfileError(null);
+    try {
+      setAdmin(await authApi.updateProfile(name.trim(), email.trim()));
+      setIsEditProfileOpen(false);
+    } catch (err) {
+      setProfileError(errorMessage(err));
+    } finally {
+      setBusy(false);
+    }
   };
 
-  const handlePasswordSubmit = (e: React.FormEvent) => {
+  const openEditProfile = () => {
+    setName(admin?.name ?? '');
+    setEmail(admin?.email ?? '');
+    setProfileError(null);
+    setIsEditProfileOpen(true);
+  };
+
+  const toggleNotification = async (key: keyof AdminNotifications, value: boolean) => {
+    setNotifError(null);
+    try {
+      setAdmin(await authApi.updateNotifications({ [key]: value }));
+    } catch (err) {
+      setNotifError(errorMessage(err));
+    }
+  };
+
+  const closePasswordModal = () => {
+    setIsChangePasswordOpen(false);
+    setCurrentPassword('');
+    setNewPassword('');
+    setConfirmPassword('');
+    setPasswordError(null);
+  };
+
+  const handlePasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setPasswordError(null);
     if (newPassword !== confirmPassword) {
-      alert('New passwords do not match');
+      setPasswordError('New passwords do not match');
       return;
     }
-    setPasswordSuccess(true);
-    setTimeout(() => {
-      setPasswordSuccess(false);
-      setIsChangePasswordOpen(false);
-      setCurrentPassword('');
-      setNewPassword('');
-      setConfirmPassword('');
-    }, 1200);
+    setBusy(true);
+    try {
+      await authApi.changePassword(currentPassword, newPassword);
+      setPasswordSuccess(true);
+      // Sessions stay valid after a password change; just confirm and close.
+      setTimeout(() => {
+        setPasswordSuccess(false);
+        closePasswordModal();
+      }, 1200);
+    } catch (err) {
+      setPasswordError(errorMessage(err));
+    } finally {
+      setBusy(false);
+    }
   };
 
   return (
@@ -63,26 +110,26 @@ export const SettingsPage: React.FC = () => {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-1">
               <div className="flex items-center gap-4">
                 <img
-                  src={settings.avatarUrl}
-                  alt={settings.name}
+                  src={admin?.avatarUrl}
+                  alt={admin?.name}
                   className="w-14 h-14 rounded-xl object-cover border border-stone-200"
                 />
                 <div>
                   <h4 className="text-lg font-editorial font-semibold text-stone-900">
-                    {settings.name}
+                    {admin?.name}
                   </h4>
                   <p className="text-xs text-stone-500 mb-1.5 font-sans">
-                    {settings.email}
+                    {admin?.email}
                   </p>
                   <span className="inline-block bg-[#DCE7E1] text-[#244B36] text-[10px] font-semibold px-2 py-0.5 rounded">
-                    {settings.role}
+                    {admin?.role}
                   </span>
                 </div>
               </div>
               <Button
                 variant="primary"
                 size="sm"
-                onClick={() => setIsEditProfileOpen(true)}
+                onClick={openEditProfile}
               >
                 Edit Profile
               </Button>
@@ -103,24 +150,23 @@ export const SettingsPage: React.FC = () => {
               <Toggle
                 label="Safety Alerts"
                 description="Critical notifications regarding ingredient safety or recalls."
-                checked={settings.notifications.safetyAlerts}
-                onChange={() => toggleNotificationSetting('safetyAlerts')}
+                checked={admin?.notifications.safetyAlerts ?? false}
+                onChange={(v) => void toggleNotification('safetyAlerts', v)}
               />
               <Toggle
                 label="Recipe Review Alerts"
                 description="Notifications when new recipes require admin approval."
-                checked={settings.notifications.recipeReviewAlerts}
-                onChange={() =>
-                  toggleNotificationSetting('recipeReviewAlerts')
-                }
+                checked={admin?.notifications.recipeReviewAlerts ?? false}
+                onChange={(v) => void toggleNotification('recipeReviewAlerts', v)}
               />
               <Toggle
                 label="System Alerts"
                 description="Platform maintenance and update notifications."
-                checked={settings.notifications.systemAlerts}
-                onChange={() => toggleNotificationSetting('systemAlerts')}
+                checked={admin?.notifications.systemAlerts ?? false}
+                onChange={(v) => void toggleNotification('systemAlerts', v)}
               />
             </div>
+            <div className="pt-2"><InlineError message={notifError} /></div>
           </section>
 
           {/* Security Card */}
@@ -175,6 +221,7 @@ export const SettingsPage: React.FC = () => {
             onChange={(e) => setEmail(e.target.value)}
             required
           />
+          <InlineError message={profileError} />
           <div className="flex justify-end gap-3 pt-3">
             <Button
               variant="secondary"
@@ -184,8 +231,8 @@ export const SettingsPage: React.FC = () => {
             >
               Cancel
             </Button>
-            <Button variant="primary" size="sm" type="submit">
-              Save
+            <Button variant="primary" size="sm" type="submit" disabled={busy}>
+              {busy ? "Saving…" : "Save"}
             </Button>
           </div>
         </form>
@@ -194,7 +241,7 @@ export const SettingsPage: React.FC = () => {
       {/* Change Password Modal */}
       <Modal
         isOpen={isChangePasswordOpen}
-        onClose={() => setIsChangePasswordOpen(false)}
+        onClose={closePasswordModal}
         title="Change Password"
       >
         <form onSubmit={handlePasswordSubmit} className="space-y-4">
@@ -225,17 +272,18 @@ export const SettingsPage: React.FC = () => {
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
               />
+              <InlineError message={passwordError} />
               <div className="flex justify-end gap-3 pt-3">
                 <Button
                   variant="secondary"
                   size="sm"
                   type="button"
-                  onClick={() => setIsChangePasswordOpen(false)}
+                  onClick={closePasswordModal}
                 >
                   Cancel
                 </Button>
-                <Button variant="primary" size="sm" type="submit">
-                  Update Password
+                <Button variant="primary" size="sm" type="submit" disabled={busy}>
+                  {busy ? "Updating…" : "Update Password"}
                 </Button>
               </div>
             </>
