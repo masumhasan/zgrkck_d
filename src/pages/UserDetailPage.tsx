@@ -4,20 +4,75 @@ import { AppLayout } from '../components/layout/AppLayout';
 import { Badge } from '../components/ui/Badge';
 import { MetricCard } from '../components/ui/MetricCard';
 import { Button } from '../components/ui/Button';
+import { Select } from '../components/ui/Select';
 import { ConfirmDialog } from '../components/shared/ConfirmDialog';
 import { UserAvatar } from '../components/shared/UserAvatar';
+import { ErrorBlock, InlineError, LoadingBlock } from '../components/shared/StatusViews';
+import { usersApi } from '../api/users.api';
+import { plansApi } from '../api/plans.api';
+import { errorMessage, useAsync } from '../hooks/useAsync';
+import { formatDate, formatLastActive } from '../utils/format';
+import { statusBadgeVariant } from '../utils/badges';
 
 export const UserDetailPage: React.FC = () => {
-  const { users, selectedUserId, navigateTo, suspendUser } = useApp();
+  const { selectedUserId, navigateTo } = useApp();
   const [isSuspendModalOpen, setIsSuspendModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [planError, setPlanError] = useState<string | null>(null);
 
-  const user =
-    users.find((u) => u.id === selectedUserId) || users[0];
-
-  const aiPercent = Math.min(
-    Math.round((user.usage.aiGenerations.used / user.usage.aiGenerations.limit) * 100),
-    100
+  const detail = useAsync(
+    () => (selectedUserId ? usersApi.get(selectedUserId) : Promise.reject(new Error('No user selected'))),
+    [selectedUserId]
   );
+  const plans = useAsync(() => plansApi.list(), []);
+
+  const user = detail.data;
+  const isBlocked = user?.status === 'Suspended' || user?.status === 'Inactive';
+
+  const aiPercent = user
+    ? Math.min(Math.round((user.usage.aiGenerations.used / Math.max(user.usage.aiGenerations.limit, 1)) * 100), 100)
+    : 0;
+
+  const handlePlanChange = async (planId: string) => {
+    if (!user) return;
+    setPlanError(null);
+    try {
+      await usersApi.setPlan(user.id, planId);
+      detail.reload();
+    } catch (err) {
+      setPlanError(errorMessage(err));
+    }
+  };
+
+  const backLink = (
+    <div>
+      <button
+        onClick={() => navigateTo('users')}
+        className="inline-flex items-center gap-2 text-[13px] font-medium text-[#244E41] hover:opacity-75 transition-opacity"
+        type="button"
+      >
+        <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+        <span>Back to Users</span>
+      </button>
+    </div>
+  );
+
+  if (!user) {
+    return (
+      <AppLayout title="User Detail" subtitle="Detailed activity and account usage overview.">
+        <div className="p-6 md:p-8 max-w-7xl mx-auto space-y-6">
+          {backLink}
+          {detail.error ? (
+            <ErrorBlock message={detail.error} onRetry={detail.reload} />
+          ) : (
+            <LoadingBlock label="Loading user…" />
+          )}
+        </div>
+      </AppLayout>
+    );
+  }
 
   return (
     <AppLayout
@@ -25,29 +80,7 @@ export const UserDetailPage: React.FC = () => {
       subtitle="Detailed activity and account usage overview."
     >
       <div className="p-6 md:p-8 max-w-7xl mx-auto space-y-6">
-        {/* Back Navigation Link */}
-        <div>
-          <button
-            onClick={() => navigateTo('users')}
-            className="inline-flex items-center gap-2 text-[13px] font-medium text-[#244E41] hover:opacity-75 transition-opacity"
-            type="button"
-          >
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M10 19l-7-7m0 0l7-7m-7 7h18"
-              />
-            </svg>
-            <span>Back to Users</span>
-          </button>
-        </div>
+        {backLink}
 
         {/* User Title Header & Status Badge */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -55,7 +88,7 @@ export const UserDetailPage: React.FC = () => {
             {user.name}
           </h1>
           <Badge
-            variant={user.status.toLowerCase() as 'active' | 'suspended' | 'pending'}
+            variant={statusBadgeVariant(user.status)}
             showDot
             className="text-[13px] px-3 py-1 self-start sm:self-auto"
           >
@@ -84,7 +117,7 @@ export const UserDetailPage: React.FC = () => {
                     <p className="text-[11px] font-semibold tracking-wider text-slate-500 uppercase">
                       Email Address
                     </p>
-                    <p className="text-[14px] text-gray-900 font-medium mt-0.5">
+                    <p className="text-[14px] text-gray-900 font-medium mt-0.5 break-all">
                       {user.email}
                     </p>
                   </div>
@@ -101,7 +134,7 @@ export const UserDetailPage: React.FC = () => {
                       Account Created
                     </p>
                     <p className="text-[14px] text-gray-900 font-normal mt-0.5">
-                      {user.joinedDate}
+                      {formatDate(user.joinedAt)}
                     </p>
                   </div>
                   <div>
@@ -109,7 +142,7 @@ export const UserDetailPage: React.FC = () => {
                       Last Active
                     </p>
                     <p className="text-[14px] text-gray-900 font-normal mt-0.5">
-                      {user.lastActive}
+                      {formatLastActive(user.lastActiveAt)}
                     </p>
                   </div>
                 </div>
@@ -133,8 +166,8 @@ export const UserDetailPage: React.FC = () => {
                   }
                 />
                 <MetricCard
-                  label="Meals Cooked"
-                  value={user.productActivity.mealsCooked}
+                  label="Meals Planned"
+                  value={user.productActivity.mealsPlanned}
                   height="h-[152px]"
                   icon={
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
@@ -143,8 +176,8 @@ export const UserDetailPage: React.FC = () => {
                   }
                 />
                 <MetricCard
-                  label="Recipes Saved"
-                  value={user.productActivity.recipesSaved}
+                  label="Pantry Items"
+                  value={user.productActivity.pantryItems}
                   height="h-[152px]"
                   icon={
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -153,8 +186,8 @@ export const UserDetailPage: React.FC = () => {
                   }
                 />
                 <MetricCard
-                  label="Recipes Imported"
-                  value={user.productActivity.recipesImported}
+                  label="Shopping Items"
+                  value={user.productActivity.shoppingItems}
                   height="h-[152px]"
                   icon={
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -188,28 +221,22 @@ export const UserDetailPage: React.FC = () => {
                   />
                 </div>
                 <p className="text-[12px] text-slate-500 mt-2.5">
-                  Resets on {user.usage.aiGenerations.resetDate}
+                  Resets on {formatDate(user.usage.aiGenerations.resetAt)}
                 </p>
               </div>
 
               <div className="space-y-3.5 text-[13px]">
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Saved Recipes</span>
-                  <span className="text-gray-900 font-medium">
-                    {user.usage.savedRecipes.used} / {user.usage.savedRecipes.limit}
-                  </span>
+                  <span className="text-gray-600">Pantry Items</span>
+                  <span className="text-gray-900 font-medium">{user.usage.pantryItems.used}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Imported Recipes</span>
-                  <span className="text-gray-900 font-medium">
-                    {user.usage.importedRecipes.used} / {user.usage.importedRecipes.limit}
-                  </span>
+                  <span className="text-gray-600">Shopping List Items</span>
+                  <span className="text-gray-900 font-medium">{user.usage.shoppingItems.used}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Custom Ingredients</span>
-                  <span className="text-gray-900 font-medium">
-                    {user.usage.customIngredients.used} / {user.usage.customIngredients.limit}
-                  </span>
+                  <span className="text-gray-600">Excluded Ingredients</span>
+                  <span className="text-gray-900 font-medium">{user.usage.excludedIngredients.used}</span>
                 </div>
               </div>
             </section>
@@ -220,34 +247,89 @@ export const UserDetailPage: React.FC = () => {
                 Account Actions
               </h3>
               <p className="text-[12.5px] leading-relaxed text-slate-500 mb-5">
-                Manage user access and account status. Suspending this account will immediately revoke access.
+                Manage the subscription plan and account status. Suspending this account will immediately revoke access.
               </p>
+              <div className="mb-4 space-y-1.5">
+                <Select
+                  label="Subscription Plan"
+                  className="w-full"
+                  value={user.planId ?? ''}
+                  onChange={(e) => void handlePlanChange(e.target.value)}
+                  options={(plans.data ?? []).map((p) => ({ label: p.name, value: p.id }))}
+                />
+                <InlineError message={planError} />
+              </div>
+              {isBlocked ? (
+                <Button
+                  variant="primary"
+                  size="md"
+                  className="w-full justify-center"
+                  onClick={() => setIsSuspendModalOpen(true)}
+                >
+                  Reactivate Account
+                </Button>
+              ) : (
+                <Button
+                  variant="danger"
+                  size="md"
+                  className="w-full justify-center"
+                  onClick={() => setIsSuspendModalOpen(true)}
+                  icon={
+                    <svg className="w-4 h-4 text-[#D83A3A]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                    </svg>
+                  }
+                >
+                  Suspend Account
+                </Button>
+              )}
               <Button
                 variant="danger"
                 size="md"
-                className="w-full justify-center"
-                onClick={() => setIsSuspendModalOpen(true)}
+                className="w-full justify-center mt-3"
+                onClick={() => setIsDeleteModalOpen(true)}
                 icon={
                   <svg className="w-4 h-4 text-[#D83A3A]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                   </svg>
                 }
               >
-                Suspend Account
+                Permanently Delete Account
               </Button>
             </section>
           </div>
         </div>
       </div>
 
-      {/* Confirm Suspend Modal */}
+      {/* Confirm Suspend / Reactivate Modal */}
       <ConfirmDialog
         isOpen={isSuspendModalOpen}
         onClose={() => setIsSuspendModalOpen(false)}
-        onConfirm={() => suspendUser(user.id)}
-        title="Suspend User Account"
-        message={`Are you sure you want to suspend ${user.name}'s account? They will immediately lose access to all Mealist.ai features.`}
-        confirmLabel="Suspend User"
+        onConfirm={async () => {
+          await usersApi.setStatus(user.id, isBlocked ? 'active' : 'suspended');
+          detail.reload();
+        }}
+        title={isBlocked ? 'Reactivate User Account' : 'Suspend User Account'}
+        message={
+          isBlocked
+            ? `Reactivate ${user.name}'s account? They will regain access to Mealist.ai.`
+            : `Are you sure you want to suspend ${user.name}'s account? They will immediately lose access to all Mealist.ai features.`
+        }
+        confirmLabel={isBlocked ? 'Reactivate' : 'Suspend User'}
+        isDanger={!isBlocked}
+      />
+
+      {/* Confirm Permanent Delete Modal */}
+      <ConfirmDialog
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={async () => {
+          await usersApi.remove(user.id);
+          navigateTo('users');
+        }}
+        title="Permanently Delete Account"
+        message={`Are you sure you want to permanently delete ${user.name}'s account? All of their data will be erased and this action cannot be undone.`}
+        confirmLabel="Delete Permanently"
         isDanger
       />
     </AppLayout>

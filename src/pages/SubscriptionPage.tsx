@@ -3,12 +3,20 @@ import { useApp } from '../context/AppContext';
 import { AppLayout } from '../components/layout/AppLayout';
 import { Badge } from '../components/ui/Badge';
 import { Button } from '../components/ui/Button';
-import { Modal } from '../components/ui/Modal';
+import { ErrorBlock, LoadingBlock } from '../components/shared/StatusViews';
+import { EditPlanModal } from '../features/plans/EditPlanModal';
+import { dashboardApi, plansApi } from '../api/plans.api';
+import { useAsync } from '../hooks/useAsync';
+import { formatCurrency, formatNumber } from '../utils/format';
 import type { SubscriptionPlan } from '../types';
 
 export const SubscriptionPage: React.FC = () => {
-  const { plans, navigateTo } = useApp();
+  const { navigateTo } = useApp();
   const [editingPlan, setEditingPlan] = useState<SubscriptionPlan | null>(null);
+  const planList = useAsync(() => plansApi.list(), []);
+  const usageState = useAsync(() => dashboardApi.usage(), []);
+  const plans = planList.data ?? [];
+  const usage = usageState.data;
 
   const renderIcon = (type: SubscriptionPlan['iconType']) => {
     switch (type) {
@@ -87,6 +95,19 @@ export const SubscriptionPage: React.FC = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100 text-sm">
+                {planList.error ? (
+                  <tr>
+                    <td colSpan={4}>
+                      <ErrorBlock message={planList.error} onRetry={planList.reload} />
+                    </td>
+                  </tr>
+                ) : planList.loading && !planList.data ? (
+                  <tr>
+                    <td colSpan={4}>
+                      <LoadingBlock label="Loading plans…" />
+                    </td>
+                  </tr>
+                ) : null}
                 {plans.map((plan) => (
                   <tr key={plan.id} className="group hover:bg-gray-50/60 transition-colors">
                     <td className="py-4.5 pr-4">
@@ -106,7 +127,7 @@ export const SubscriptionPage: React.FC = () => {
                       {plan.userCount.toLocaleString()}
                     </td>
                     <td className="py-4.5 text-center">
-                      <Badge variant={plan.status === 'Active' ? 'active' : 'draft'}>
+                      <Badge variant={plan.status === 'Active' ? 'active' : 'draft'} showDot>
                         {plan.status}
                       </Badge>
                     </td>
@@ -130,36 +151,49 @@ export const SubscriptionPage: React.FC = () => {
               <h3 className="font-editorial text-xl font-bold text-gray-900 mb-6">
                 Usage Overview
               </h3>
-              <div className="mb-5">
-                <span className="text-[11px] font-bold text-gray-500 tracking-wider uppercase block mb-2">
-                  AI OPERATIONS THIS MONTH
-                </span>
-                <div className="flex items-baseline gap-1.5">
-                  <span className="font-editorial text-3xl font-extrabold text-gray-900 tracking-tight">
-                    1.2M
-                  </span>
-                  <span className="text-sm font-medium text-gray-500">
-                    / 5M Limit
-                  </span>
-                </div>
-                <div className="w-full bg-[#EAE6DD] h-2 rounded-full mt-3 overflow-hidden">
-                  <div className="bg-[#205844] h-2 rounded-full" style={{ width: '24%' }} />
-                </div>
-              </div>
-              <div className="pt-5 border-t border-gray-100 space-y-3 text-xs">
-                <div className="flex justify-between items-center text-slate-600">
-                  <span>Cook Mode Invocations</span>
-                  <span className="font-semibold text-slate-900">420,180</span>
-                </div>
-                <div className="flex justify-between items-center text-slate-600">
-                  <span>Meal Plan Generations</span>
-                  <span className="font-semibold text-slate-900">680,240</span>
-                </div>
-                <div className="flex justify-between items-center text-slate-600">
-                  <span>Nutrition Analysis Runs</span>
-                  <span className="font-semibold text-slate-900">99,580</span>
-                </div>
-              </div>
+              {usageState.error ? (
+                <ErrorBlock message={usageState.error} onRetry={usageState.reload} />
+              ) : !usage ? (
+                <LoadingBlock />
+              ) : (
+                <>
+                  <div className="mb-5">
+                    <span className="text-[11px] font-bold text-gray-500 tracking-wider uppercase block mb-2">
+                      MEAL PLANS GENERATED THIS MONTH
+                    </span>
+                    <div className="flex items-baseline gap-1.5">
+                      <span className="font-editorial text-3xl font-extrabold text-gray-900 tracking-tight">
+                        {formatNumber(usage.mealPlansThisMonth)}
+                      </span>
+                      <span className="text-sm font-medium text-gray-500">
+                        by {formatNumber(usage.usersGeneratingThisMonth)} of {formatNumber(usage.totalUsers)} users
+                      </span>
+                    </div>
+                    <div className="w-full bg-[#EAE6DD] h-2 rounded-full mt-3 overflow-hidden">
+                      <div
+                        className="bg-[#205844] h-2 rounded-full"
+                        style={{
+                          width: `${usage.totalUsers ? Math.min(100, Math.round((usage.usersGeneratingThisMonth / usage.totalUsers) * 100)) : 0}%`,
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div className="pt-5 border-t border-gray-100 space-y-3 text-xs">
+                    <div className="flex justify-between items-center text-slate-600">
+                      <span>Meal Plans (all time)</span>
+                      <span className="font-semibold text-slate-900">{formatNumber(usage.mealPlansTotal)}</span>
+                    </div>
+                    <div className="flex justify-between items-center text-slate-600">
+                      <span>Pantry Items Tracked</span>
+                      <span className="font-semibold text-slate-900">{formatNumber(usage.pantryItems)}</span>
+                    </div>
+                    <div className="flex justify-between items-center text-slate-600">
+                      <span>Shopping List Items</span>
+                      <span className="font-semibold text-slate-900">{formatNumber(usage.shoppingItems)}</span>
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
 
             {/* Quick Metrics */}
@@ -168,39 +202,25 @@ export const SubscriptionPage: React.FC = () => {
                 MONTHLY RUN RATE
               </span>
               <p className="font-editorial text-3xl font-bold text-[#205844]">
-                $42,850
+                {usage ? formatCurrency(usage.monthlyRunRate) : '—'}
               </p>
               <p className="text-xs text-slate-500 mt-1">
-                +14.2% from last calendar month
+                {usage ? `${formatNumber(usage.subscribers)} paying subscriber${usage.subscribers === 1 ? '' : 's'}` : ''}
               </p>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Edit Plan Modal */}
-      {editingPlan && (
-        <Modal
-          isOpen={!!editingPlan}
-          onClose={() => setEditingPlan(null)}
-          title={`Edit ${editingPlan.name}`}
-        >
-          <div className="space-y-4 text-xs">
-            <p className="text-slate-600">{editingPlan.description}</p>
-            <div className="p-3 bg-stone-50 rounded border border-stone-200 space-y-1">
-              <p><span className="font-semibold">Price:</span> ${editingPlan.price.toFixed(2)} ({editingPlan.cycle})</p>
-              <p><span className="font-semibold">AI Operations Limit:</span> {editingPlan.aiLimit.toLocaleString()} / mo</p>
-              <p><span className="font-semibold">Recipe Save Limit:</span> {editingPlan.recipeLimit}</p>
-              <p><span className="font-semibold">Features:</span> {editingPlan.features.join(', ')}</p>
-            </div>
-            <div className="flex justify-end pt-3">
-              <Button variant="primary" size="sm" onClick={() => setEditingPlan(null)}>
-                Save Changes
-              </Button>
-            </div>
-          </div>
-        </Modal>
-      )}
+      <EditPlanModal
+        key={editingPlan?.id ?? "none"}
+        plan={editingPlan}
+        onClose={() => setEditingPlan(null)}
+        onSaved={() => {
+          planList.reload();
+          usageState.reload();
+        }}
+      />
     </AppLayout>
   );
 };

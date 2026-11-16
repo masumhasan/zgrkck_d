@@ -7,43 +7,46 @@ export type NavItemId =
   | 'add-plan'
   | 'settings';
 
+export interface Pagination {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+}
+
+export interface Paged<T> {
+  items: T[];
+  pagination: Pagination;
+}
+
 export type UserStatus = 'Active' | 'Pending' | 'Inactive' | 'Suspended';
-export type UserPlan = 'Free' | 'Plus' | 'Pro';
+export type StoredUserStatus = 'active' | 'inactive' | 'suspended';
 
 export interface User {
   id: string;
   name: string;
   email: string;
-  avatarUrl?: string;
   initials: string;
-  plan: UserPlan;
+  avatarUrl: string;
+  plan: string;
+  planId: string | null;
   status: UserStatus;
-  joinedDate: string;
-  lastActive: string;
+  joinedAt: string;
+  lastActiveAt: string;
+}
+
+export interface UserDetail extends User {
   productActivity: {
     plansGenerated: number;
-    mealsCooked: number;
-    recipesSaved: number;
-    recipesImported: number;
+    mealsPlanned: number;
+    pantryItems: number;
+    shoppingItems: number;
   };
   usage: {
-    aiGenerations: {
-      used: number;
-      limit: number;
-      resetDate: string;
-    };
-    savedRecipes: {
-      used: number;
-      limit: string;
-    };
-    importedRecipes: {
-      used: number;
-      limit: number;
-    };
-    customIngredients: {
-      used: number;
-      limit: number;
-    };
+    aiGenerations: { used: number; limit: number; resetAt: string };
+    pantryItems: { used: number };
+    shoppingItems: { used: number };
+    excludedIngredients: { used: number };
   };
 }
 
@@ -55,9 +58,36 @@ export interface Recipe {
   title: string;
   cuisine: string;
   status: RecipeStatus;
-  lastUpdated: string;
+  updatedAt: string;
   updatedBy: string;
   imageUrl: string;
+}
+
+export interface RecipeDetail extends Recipe {
+  summary: string;
+  mealTypes: string[];
+  tags: string[];
+  difficulty: string;
+  prepMinutes: number;
+  cookMinutes: number;
+  totalMinutes: number;
+  servings: number;
+  allergens: string[];
+  ingredients: string[];
+  steps: string[];
+}
+
+export interface NewRecipeInput {
+  title: string;
+  cuisine: string;
+  status: RecipeStatus;
+  imageUrl?: string;
+  summary?: string;
+  mealType: string;
+  prepMinutes: number;
+  cookMinutes: number;
+  ingredients: string[];
+  steps: string[];
 }
 
 export type PlanBillingCycle = 'Monthly' | 'Quarterly' | 'Yearly';
@@ -75,22 +105,50 @@ export interface SubscriptionPlan {
   aiLimit: number;
   recipeLimit: string;
   features: string[];
+  isDefault: boolean;
 }
 
-export interface RecentActivityItem {
+export type PlanInput = Omit<SubscriptionPlan, 'id' | 'userCount' | 'isDefault'>;
+
+export interface ActivityItem {
   id: string;
+  type: string;
   title: string;
-  timeAgo: string;
+  createdAt: string;
 }
 
-export interface AdminSettings {
+export interface DashboardOverview {
+  totalUsers: number;
+  totalRecipes: number;
+  totalSubscribers: number;
+  monthlyRevenue: number;
+  activeUsers: number;
+  newThisWeek: number;
+  recentUsers: User[];
+}
+
+export interface UsageOverview {
+  mealPlansThisMonth: number;
+  mealPlansTotal: number;
+  usersGeneratingThisMonth: number;
+  totalUsers: number;
+  pantryItems: number;
+  shoppingItems: number;
+  monthlyRunRate: number;
+  subscribers: number;
+}
+
+export interface AdminNotifications {
+  safetyAlerts: boolean;
+  recipeReviewAlerts: boolean;
+  systemAlerts: boolean;
+}
+
+export interface AdminProfile {
+  id: string;
   name: string;
   email: string;
   role: string;
   avatarUrl: string;
-  notifications: {
-    safetyAlerts: boolean;
-    recipeReviewAlerts: boolean;
-    systemAlerts: boolean;
-  };
+  notifications: AdminNotifications;
 }

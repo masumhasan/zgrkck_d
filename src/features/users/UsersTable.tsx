@@ -2,6 +2,10 @@ import React from 'react';
 import type { User } from '../../types';
 import { Badge } from '../../components/ui/Badge';
 import { UserAvatar } from '../../components/shared/UserAvatar';
+import { formatDate } from '../../utils/format';
+import { planBadgeVariant, statusBadgeVariant } from '../../utils/badges';
+
+const isBlocked = (user: User) => user.status === 'Inactive' || user.status === 'Suspended';
 
 export interface UsersTableProps {
   users: User[];
@@ -76,36 +80,24 @@ export const UsersTable: React.FC<UsersTableProps> = ({
                   {user.email}
                 </td>
                 <td className="py-3.5 px-6 whitespace-nowrap">
-                  <Badge
-                    variant={user.plan.toLowerCase() as 'free' | 'plus' | 'pro'}
-                  >
+                  <Badge variant={planBadgeVariant(user.plan)}>
                     {user.plan}
                   </Badge>
                 </td>
                 <td className="py-3.5 px-6 whitespace-nowrap">
-                  <Badge
-                    variant={
-                      user.status.toLowerCase() as
-                        | 'active'
-                        | 'pending'
-                        | 'inactive'
-                        | 'suspended'
-                    }
-                  >
+                  <Badge variant={statusBadgeVariant(user.status)}>
                     {user.status}
                   </Badge>
                 </td>
                 <td className="py-3.5 px-6 whitespace-nowrap text-xs text-[#4B5563]">
-                  {user.joinedDate}
+                  {formatDate(user.joinedAt)}
                 </td>
                 <td className="py-3.5 px-6 whitespace-nowrap text-center">
                   <div className="flex items-center justify-center gap-2.5">
                     <button
                       onClick={() => onBlockUser(user)}
                       className="text-[#E02424] hover:opacity-80 transition-opacity p-1"
-                      title={
-                        user.status === 'Active' ? 'Block user' : 'Reactivate user'
-                      }
+                      title={isBlocked(user) ? 'Reactivate user' : 'Block user'}
                       type="button"
                     >
                       <svg
