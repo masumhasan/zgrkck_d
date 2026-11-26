@@ -2,13 +2,12 @@ import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { AppLayout } from '../components/layout/AppLayout';
 import { Button } from '../components/ui/Button';
-import { Toggle } from '../components/ui/Toggle';
 import { Modal } from '../components/ui/Modal';
 import { Input } from '../components/ui/Input';
 import { InlineError } from '../components/shared/StatusViews';
+import { NutritionRefreshCard } from '../features/nutrition/NutritionRefreshCard';
 import { authApi } from '../api/auth.api';
 import { errorMessage } from '../hooks/useAsync';
-import type { AdminNotifications } from '../types';
 
 export const SettingsPage: React.FC = () => {
   const { admin, setAdmin } = useApp();
@@ -20,7 +19,6 @@ export const SettingsPage: React.FC = () => {
   const [email, setEmail] = useState(admin?.email ?? '');
   const [profileError, setProfileError] = useState<string | null>(null);
   const [passwordError, setPasswordError] = useState<string | null>(null);
-  const [notifError, setNotifError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
   const [currentPassword, setCurrentPassword] = useState('');
@@ -47,15 +45,6 @@ export const SettingsPage: React.FC = () => {
     setEmail(admin?.email ?? '');
     setProfileError(null);
     setIsEditProfileOpen(true);
-  };
-
-  const toggleNotification = async (key: keyof AdminNotifications, value: boolean) => {
-    setNotifError(null);
-    try {
-      setAdmin(await authApi.updateNotifications({ [key]: value }));
-    } catch (err) {
-      setNotifError(errorMessage(err));
-    }
   };
 
   const closePasswordModal = () => {
@@ -136,38 +125,7 @@ export const SettingsPage: React.FC = () => {
             </div>
           </section>
 
-          {/* Notifications Card */}
-          <section className="bg-white rounded-xl border border-stone-200/90 p-6 shadow-xs">
-            <div className="mb-4 pb-3 border-b border-stone-100">
-              <h3 className="text-base font-editorial font-semibold text-stone-900">
-                Notifications
-              </h3>
-              <p className="text-xs text-stone-500 mt-0.5">
-                Control which alerts you receive via email.
-              </p>
-            </div>
-            <div className="divide-y divide-stone-100">
-              <Toggle
-                label="Safety Alerts"
-                description="Critical notifications regarding ingredient safety or recalls."
-                checked={admin?.notifications.safetyAlerts ?? false}
-                onChange={(v) => void toggleNotification('safetyAlerts', v)}
-              />
-              <Toggle
-                label="Recipe Review Alerts"
-                description="Notifications when new recipes require admin approval."
-                checked={admin?.notifications.recipeReviewAlerts ?? false}
-                onChange={(v) => void toggleNotification('recipeReviewAlerts', v)}
-              />
-              <Toggle
-                label="System Alerts"
-                description="Platform maintenance and update notifications."
-                checked={admin?.notifications.systemAlerts ?? false}
-                onChange={(v) => void toggleNotification('systemAlerts', v)}
-              />
-            </div>
-            <div className="pt-2"><InlineError message={notifError} /></div>
-          </section>
+          <NutritionRefreshCard />
 
           {/* Security Card */}
           <section className="bg-white rounded-xl border border-stone-200/90 p-6 shadow-xs">

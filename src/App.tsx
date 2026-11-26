@@ -8,6 +8,8 @@ import { RecipesPage } from './pages/RecipesPage';
 import { SubscriptionPage } from './pages/SubscriptionPage';
 import { AddPlanPage } from './pages/AddPlanPage';
 import { SettingsPage } from './pages/SettingsPage';
+import { LegalPage } from './pages/LegalPage';
+import { PublicLegalPage } from './pages/PublicLegalPage';
 import { LoadingBlock } from './components/shared/StatusViews';
 
 const AppContent: React.FC = () => {
@@ -38,6 +40,8 @@ const AppContent: React.FC = () => {
       return <SubscriptionPage />;
     case 'add-plan':
       return <AddPlanPage />;
+    case 'legal':
+      return <LegalPage />;
     case 'settings':
       return <SettingsPage />;
     default:
@@ -46,6 +50,10 @@ const AppContent: React.FC = () => {
 };
 
 export function App() {
+  const path = window.location.pathname.replace(/\/+$/, '');
+  if (path === '/terms') return <PublicLegalPage mode="terms" />;
+  if (path === '/privacy') return <PublicLegalPage mode="privacy" />;
+
   return (
     <AppProvider>
       <AppContent />

@@ -3,6 +3,7 @@ import type {
   ActivityItem,
   DashboardOverview,
   PlanInput,
+  SafetyReport,
   SubscriptionPlan,
   UsageOverview,
 } from '../types';
@@ -20,6 +21,7 @@ export const plansApi = {
 export const dashboardApi = {
   overview: () => request<DashboardOverview>('/admin/dashboard/overview'),
   usage: () => request<UsageOverview>('/admin/dashboard/usage'),
+  safety: () => request<SafetyReport>('/admin/dashboard/safety'),
   activity: (limit = 10) =>
     request<ActivityItem[]>('/admin/dashboard/activity', { query: { limit } }),
 };

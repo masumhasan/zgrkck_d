@@ -28,6 +28,11 @@ export const MAIN_NAV_ITEMS: NavItemConfig[] = [
     icon: 'subscription',
   },
   {
+    id: 'legal',
+    label: 'Legal',
+    icon: 'legal',
+  },
+  {
     id: 'settings',
     label: 'Settings',
     icon: 'settings',

@@ -7,13 +7,13 @@ import { UserAvatar } from '../components/shared/UserAvatar';
 import { ErrorBlock, LoadingBlock } from '../components/shared/StatusViews';
 import { dashboardApi } from '../api/plans.api';
 import { useAsync } from '../hooks/useAsync';
-import { formatCurrency, formatNumber, timeAgo } from '../utils/format';
+import { formatCurrency, formatNumber } from '../utils/format';
 import { statusBadgeVariant } from '../utils/badges';
 
 export const DashboardPage: React.FC = () => {
   const { navigateTo } = useApp();
   const overview = useAsync(() => dashboardApi.overview(), []);
-  const activity = useAsync(() => dashboardApi.activity(8), []);
+  const safety = useAsync(() => dashboardApi.safety(), []);
 
   const data = overview.data;
   const cardClass = 'cursor-pointer hover:shadow-md transition-shadow';
@@ -56,12 +56,27 @@ export const DashboardPage: React.FC = () => {
               />
             </section>
 
-            {/* Main Two-Column Layout */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
-              {/* Left Column: User Overview */}
+            {/* Safety report (spec REQ-SAFE-13): reported monthly, including when zero */}
+            <section
+              aria-label="Safety events"
+              className="bg-white border border-[#E5E2DC] rounded-xl p-6 shadow-[0_1px_2px_rgba(0,0,0,0.03)]"
+            >
+              <h3 className="text-lg font-editorial font-bold text-[#244E41] pb-3">
+                Safety (last {safety.data?.days ?? 30} days)
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <MetricCard label="ALLERGEN BLOCKS" value={safety.data ? formatNumber(safety.data.allergen_block) : '—'} />
+                <MetricCard label="CALORIE FLOOR APPLIED" value={safety.data ? formatNumber(safety.data.floor_trigger) : '—'} />
+                <MetricCard label="SUPPORT MESSAGES SHOWN" value={safety.data ? formatNumber(safety.data.escalation) : '—'} />
+              </div>
+            </section>
+
+            {/* Main Layout */}
+            <div className="grid grid-cols-1 gap-6 items-start">
+              {/* User Overview */}
               <section
                 aria-labelledby="user-overview-heading"
-                className="lg:col-span-2 bg-white border border-[#E5E2DC] rounded-xl p-6 shadow-[0_1px_2px_rgba(0,0,0,0.03)]"
+                className="bg-white border border-[#E5E2DC] rounded-xl p-6 shadow-[0_1px_2px_rgba(0,0,0,0.03)]"
               >
                 <div className="flex flex-col sm:flex-row sm:items-baseline justify-between pb-4 border-b border-[#ECEAE4] gap-4">
                   <h3 id="user-overview-heading" className="text-lg font-editorial font-bold text-[#244E41]">
@@ -125,36 +140,6 @@ export const DashboardPage: React.FC = () => {
                     </svg>
                   </button>
                 </div>
-              </section>
-
-              {/* Right Column: Recent Activity */}
-              <section
-                aria-labelledby="recent-activity-heading"
-                className="bg-white border border-[#E5E2DC] rounded-xl p-6 shadow-[0_1px_2px_rgba(0,0,0,0.03)]"
-              >
-                <h3 id="recent-activity-heading" className="text-lg font-editorial font-bold text-[#244E41] pb-3">
-                  Recent Activity
-                </h3>
-                {activity.loading && !activity.data ? (
-                  <LoadingBlock />
-                ) : activity.error ? (
-                  <ErrorBlock message={activity.error} onRetry={activity.reload} />
-                ) : (
-                  <div className="divide-y divide-[#F1EFEB]">
-                    {activity.data?.length === 0 && (
-                      <p className="py-6 text-center text-xs text-slate-500">No activity recorded yet.</p>
-                    )}
-                    {activity.data?.map((act) => (
-                      <div key={act.id} className="py-3.5 flex items-start space-x-3">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#244E41] mt-1.5 shrink-0" />
-                        <div>
-                          <p className="text-xs font-medium text-slate-800 leading-snug">{act.title}</p>
-                          <span className="text-[11px] text-slate-500">{timeAgo(act.createdAt)}</span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
               </section>
             </div>
           </>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 export interface UserAvatarProps {
   src?: string;
@@ -17,6 +17,7 @@ export const UserAvatar: React.FC<UserAvatarProps> = ({
   shape = 'circle',
   className = '',
 }) => {
+  const [failedSrc, setFailedSrc] = useState<string>();
   const sizeClasses = {
     sm: 'w-7 h-7 text-[10px]',
     md: 'w-9 h-9 text-xs',
@@ -34,11 +35,13 @@ export const UserAvatar: React.FC<UserAvatarProps> = ({
       .substring(0, 2)
       .toUpperCase();
 
-  if (src) {
+  // a photo that fails to load falls back to initials instead of a broken-image icon
+  if (src && failedSrc !== src) {
     return (
       <img
         src={src}
         alt={name}
+        onError={() => setFailedSrc(src)}
         className={`${sizeClasses} ${shapeClasses} object-cover border border-[#E5E1D8] shrink-0 ${className}`}
       />
     );

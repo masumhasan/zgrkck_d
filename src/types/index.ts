@@ -5,6 +5,7 @@ export type NavItemId =
   | 'recipes'
   | 'subscription'
   | 'add-plan'
+  | 'legal'
   | 'settings';
 
 export interface Pagination {
@@ -109,6 +110,14 @@ export interface SubscriptionPlan {
 }
 
 export type PlanInput = Omit<SubscriptionPlan, 'id' | 'userCount' | 'isDefault'>;
+
+// REQ-SAFE-13: counts over the last `days` days, zeros included
+export interface SafetyReport {
+  days: number;
+  allergen_block: number;
+  floor_trigger: number;
+  escalation: number;
+}
 
 export interface ActivityItem {
   id: string;
